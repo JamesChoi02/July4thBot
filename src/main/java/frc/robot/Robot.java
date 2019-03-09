@@ -7,11 +7,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
+import badlog.lib.BadLog;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,12 +27,25 @@ public class Robot extends TimedRobot {
   private final Joystick m_stick = new Joystick(0);
   private final Timer m_timer = new Timer();
 
+  private BadLog logger;
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
   @Override
   public void robotInit() {
+    String timestamp = new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date());
+    logger = BadLog.init("/home/lvuser/" + timestamp + ".badbag");
+
+    BadLog.createValue("OS Version", System.getProperty("os.version"));
+
+    BadLog.createValue("Match Type", DriverStation.getInstance().getMatchType().toString());
+    BadLog.createValue("Match Number", "" + DriverStation.getInstance().getMatchNumber());
+    BadLog.createTopic("Match Time", "s", DriverStation.getInstance()::getMatchTime);
+
+
+    logger.finishInitialization();
   }
 
   /**
@@ -48,12 +62,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    // Drive for 2 seconds
-    if (m_timer.get() < 2.0) {
-      m_robotDrive.arcadeDrive(0.5, 0.0); // drive forwards half speed
-    } else {
-      m_robotDrive.stopMotor(); // stop robot
-    }
+    teleopPeriodic();
   }
 
   /**
@@ -61,6 +70,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
+    
   }
 
   /**
@@ -68,7 +78,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    m_robotDrive.arcadeDrive(m_stick.getY(), m_stick.getX());
+    logger.updateTopics();
+    logger.log();
   }
 
   /**
