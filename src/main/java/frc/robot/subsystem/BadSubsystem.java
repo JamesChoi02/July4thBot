@@ -2,6 +2,7 @@ package frc.robot.subsystem;
 
 import java.lang.reflect.Field;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.util.AutoLogger;
@@ -46,11 +47,11 @@ public abstract class BadSubsystem extends Subsystem {
 
     public abstract void test();
 
-    protected void sleep(double time_seconds) {
-        try {
-            Thread.sleep((long) (1000 * time_seconds));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    protected void sleep(double seconds) {
+        Timer.delay(seconds);
+    }
+
+    public static boolean isEnabled() {
+        return false;
     }
 }
