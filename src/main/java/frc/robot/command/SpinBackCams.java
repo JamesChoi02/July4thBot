@@ -5,17 +5,17 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class DriveStraight extends Command {
+public class SpinBackCams extends Command {
     private Supplier<Double> speedInput;
 
-    public DriveStraight(Supplier<Double> speedInput) {
-        super(Robot.driveTrain);
+    public SpinBackCams(Supplier<Double> speedInput) {
+        super(Robot.backCams);
         this.speedInput = speedInput;
     }
 
     @Override
     protected void execute() {
-        Robot.driveTrain.driveStraight(speedInput.get());
+        Robot.backCams.spin(speedInput.get());
     }
 
     @Override
@@ -25,6 +25,6 @@ public class DriveStraight extends Command {
 
     @Override
     protected void end() {
-        Robot.driveTrain.stop();
+        Robot.backCams.stop();
     }
 }
