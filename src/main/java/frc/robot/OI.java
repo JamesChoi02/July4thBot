@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.command.DriveStraight;
+import frc.robot.command.InvertDriveTrain;
 import frc.robot.command.MoveLifter;
 import frc.robot.command.MoveLifterTo;
 import frc.robot.command.RotateArticulator;
@@ -36,6 +37,7 @@ public class OI {
                     new DriveStraight(() -> xboxController.getTriggerAxis(Hand.kRight)), true);
             bind(() -> xboxController.getTriggerAxis(Hand.kLeft) > 0.1,
                     new DriveStraight(() -> -xboxController.getTriggerAxis(Hand.kLeft)), true);
+            bind(xboxController::getAButton, new InvertDriveTrain(), false);
         }
 
         if (BackCams.isEnabled()) {

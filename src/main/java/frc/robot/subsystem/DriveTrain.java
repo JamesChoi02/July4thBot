@@ -14,6 +14,7 @@ public class DriveTrain extends BadSubsystem {
     private CANSparkMax leftLeaderMotor, leftFollowerMotor, rightLeaderMotor, rightFollowerMotor;
     private DifferentialDrive differentialDrive;
     private AHRS navx;
+    private boolean inverted;
 
     @Override
     public void initComponents() {
@@ -39,16 +40,28 @@ public class DriveTrain extends BadSubsystem {
     }
 
     public void tankDrive(double left, double right) {
-        differentialDrive.tankDrive(left, right);
+        if (inverted)
+            differentialDrive.tankDrive(-right, -left);
+        else
+            differentialDrive.tankDrive(left, right);
     }
 
     public void driveStraight(double speed) {
-        leftLeaderMotor.getPIDController().setReference(speed, ControlType.kDutyCycle);
-        rightLeaderMotor.getPIDController().setReference(speed, ControlType.kDutyCycle);
+        if (inverted) {
+            leftLeaderMotor.getPIDController().setReference(-speed, ControlType.kDutyCycle);
+            rightLeaderMotor.getPIDController().setReference(-speed, ControlType.kDutyCycle);
+        } else {
+            leftLeaderMotor.getPIDController().setReference(speed, ControlType.kDutyCycle);
+            rightLeaderMotor.getPIDController().setReference(speed, ControlType.kDutyCycle);
+        }
     }
 
     public double getAngle() {
         return navx.getAngle();
+    }
+
+    public void invert() {
+        inverted = !inverted;
     }
 
     @Override
@@ -61,6 +74,7 @@ public class DriveTrain extends BadSubsystem {
         differentialDrive.close();
         leftFollowerMotor.close();
         rightFollowerMotor.close();
+        navx.close();
     }
 
     @Override
