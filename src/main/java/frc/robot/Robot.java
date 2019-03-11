@@ -8,6 +8,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
+import frc.robot.subsystem.Articulator;
+import frc.robot.subsystem.BackCams;
+import frc.robot.subsystem.DriveTrain;
+import frc.robot.subsystem.Grabber;
+import frc.robot.subsystem.Lifter;
 import badlog.lib.BadLog;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -20,6 +25,13 @@ import java.text.SimpleDateFormat;
  * directory.
  */
 public class Robot extends TimedRobot {
+    public static OI oi;
+    public static DriveTrain driveTrain;
+    public static BackCams backCams;
+    public static Lifter lifter;
+    public static Articulator articulator;
+    public static Grabber grabber;
+
     private BadLog logger;
 
     /**
@@ -28,7 +40,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        String timestamp = new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date());
+        String timestamp = new SimpleDateFormat("yyyy'-'MM'-'dd'T'HH'-'mm").format(new Date());
         logger = BadLog.init("/home/lvuser/" + timestamp + ".badbag");
 
         BadLog.createValue("OS Version", System.getProperty("os.version"));
@@ -36,6 +48,21 @@ public class Robot extends TimedRobot {
         BadLog.createValue("Match Type", DriverStation.getInstance().getMatchType().toString());
         BadLog.createValue("Match Number", "" + DriverStation.getInstance().getMatchNumber());
         BadLog.createTopic("Match Time", "s", DriverStation.getInstance()::getMatchTime);
+
+        if (DriveTrain.isEnabled())
+            driveTrain = new DriveTrain();
+
+        if (BackCams.isEnabled())
+            backCams = new BackCams();
+
+        if (Lifter.isEnabled())
+            lifter = new Lifter();
+
+        if (Articulator.isEnabled())
+            articulator = new Articulator();
+
+        if (Grabber.isEnabled())
+            grabber = new Grabber();
 
         logger.finishInitialization();
     }
