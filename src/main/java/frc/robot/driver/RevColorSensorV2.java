@@ -10,8 +10,7 @@ import edu.wpi.first.wpilibj.I2C;
  *
  * See http://www.revrobotics.com/content/docs/TMD3782_v2.pdf
  */
-public class RevColorSensorV2 extends I2C implements AutoCloseable
-{
+public class RevColorSensorV2 extends I2C implements AutoCloseable {
     /* ---------------------------- READ/WRITE ---------------------------- */
 
     private final static int ENABLE = 0x00; // Enables states and interrupts
@@ -88,16 +87,14 @@ public class RevColorSensorV2 extends I2C implements AutoCloseable
     /**
      * Creates a new instance of a RevColorSensorV2 and prepares it for operation
      */
-    public RevColorSensorV2(Port port)
-    {
+    public RevColorSensorV2(Port port) {
         super(port, 0x39);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
         init();
     }
 
-    public void init()
-    {
+    public void init() {
         write(COMMAND | ENABLE, PON | AEN | PEN);
         write(COMMAND | ATIME, (int) (256 - integrationTime / 2.38));
         write(COMMAND | PPULSE, 0b1111);
@@ -107,8 +104,7 @@ public class RevColorSensorV2 extends I2C implements AutoCloseable
     /**
      * Read the red, green, blue, and proximity values from the sensor
      */
-    public short[] getRGBA()
-    {
+    public short[] getRGBA() {
         byteBuffer.clear();
         read(COMMAND | MULTI_BYTE_BIT | CDATAL, 8, byteBuffer);
 
@@ -120,45 +116,38 @@ public class RevColorSensorV2 extends I2C implements AutoCloseable
         return new short[] { red, green, blue, alpha };
     }
 
-    public short getProximity()
-    {
+    public short getProximity() {
         return readShort(PDATAL);
     }
 
-    public byte getControl()
-    {
+    public byte getControl() {
         return readByte(CONTROL);
     }
 
-    public int getStatus()
-    {
+    public int getStatus() {
         return readByte(STATUS);
     }
 
-    private byte readByte(int register)
-    {
+    private byte readByte(int register) {
         byteBuffer.clear();
         read(COMMAND | register, 1, byteBuffer);
         return byteBuffer.get(0);
     }
 
-    public short readShort(int register)
-    {
+    public short readShort(int register) {
         byteBuffer.clear();
         read(COMMAND | MULTI_BYTE_BIT | register, 2, byteBuffer);
         return asUnsignedShort(byteBuffer.getShort(0));
     }
 
-    private short asUnsignedShort(short signedShort)
-    {
+    private short asUnsignedShort(short signedShort) {
         if (signedShort < 0)
             return signedShort += 1 << 16;
         else
             return signedShort;
     }
 
-    public void close()
-    {
+    public void close() {
         close();
     }
 }
