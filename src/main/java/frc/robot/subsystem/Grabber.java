@@ -2,7 +2,7 @@ package frc.robot.subsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
-import frc.robot.drivers.CANTalonSRX;
+import frc.robot.driver.CANTalonSRX;
 
 public class Grabber extends BadSubsystem {
     private CANTalonSRX motor;

@@ -4,7 +4,7 @@ import badlog.lib.BadLog;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
-import frc.robot.drivers.CANTalonSRX;
+import frc.robot.driver.CANTalonSRX;
 
 public class AutoLogger {
     public static void log(String subsystemName, String deviceName, Object device) {

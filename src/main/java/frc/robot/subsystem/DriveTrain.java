@@ -2,6 +2,7 @@ package frc.robot.subsystem;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -39,6 +40,11 @@ public class DriveTrain extends BadSubsystem {
 
     public void tankDrive(double left, double right) {
         differentialDrive.tankDrive(left, right);
+    }
+
+    public void driveStraight(double speed) {
+        leftLeaderMotor.getPIDController().setReference(speed, ControlType.kDutyCycle);
+        rightLeaderMotor.getPIDController().setReference(speed, ControlType.kDutyCycle);
     }
 
     public double getAngle() {
