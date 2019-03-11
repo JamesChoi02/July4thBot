@@ -1,5 +1,7 @@
 package frc.robot.subsystem;
 
+import static org.junit.Assert.assertTrue;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
@@ -80,9 +82,15 @@ public class DriveTrain extends BadSubsystem {
     @Override
     public void test() {
         tankDrive(0.1, 0);
-        sleep(2);
+        sleep(1);
+        assertTrue("Left DriveTrain Motors Move", leftLeaderMotor.getEncoder().getVelocity() > 0);
+        sleep(1);
+
         tankDrive(0, 0.1);
-        sleep(2);
+        sleep(1);
+        assertTrue("Right DriveTrain Motors Move", rightLeaderMotor.getEncoder().getVelocity() > 0);
+        sleep(1);
+        
         stop();
     }
 }

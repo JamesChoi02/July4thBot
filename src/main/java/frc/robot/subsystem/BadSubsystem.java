@@ -2,6 +2,8 @@ package frc.robot.subsystem;
 
 import java.lang.reflect.Field;
 
+import org.junit.Test;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -45,6 +47,7 @@ public abstract class BadSubsystem extends Subsystem {
     @Override
     public abstract void close();
 
+    @Test
     public abstract void test();
 
     protected void sleep(double seconds) {
