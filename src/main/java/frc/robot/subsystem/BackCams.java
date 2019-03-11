@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
 import frc.robot.driver.CANTalonSRX;
 
-public class BackHatch extends BadSubsystem {
+public class BackCams extends BadSubsystem {
     private CANTalonSRX motor;
 
     @Override
