@@ -21,24 +21,24 @@ public class AutoLogger {
     private static void log(String subsystemName, String combo, CANSparkMax spark) {
         BadLog.createValue(combo + "Firmware", spark.getFirmwareString());
 
-        BadLog.createTopic(combo + "Output Percent", BadLog.UNITLESS, () -> spark.get(),
+        BadLog.createTopic(combo + "Output Percent", BadLog.UNITLESS, spark::get,
                 "join:" + subsystemName + "/Output Percents");
 
-        BadLog.createTopic(combo + "Current", "A", () -> spark.getOutputCurrent(),
+        BadLog.createTopic(combo + "Current", "A", spark::getOutputCurrent,
                 "join:" + subsystemName + "/Output Currents");
-        BadLog.createTopic(combo + "Temperature", "C", () -> spark.getMotorTemperature(),
+        BadLog.createTopic(combo + "Temperature", "C", spark::getMotorTemperature,
                 "join:" + subsystemName + "/Temperatures");
     }
 
     private static void log(String subsystemName, String combo, CANTalonSRX talon) {
         BadLog.createValue(combo + "Firmware", "" + talon.getFirmwareVersion());
 
-        BadLog.createTopic(combo + "Output Percent", BadLog.UNITLESS, () -> talon.get(),
+        BadLog.createTopic(combo + "Output Percent", BadLog.UNITLESS, talon::get,
                 "join:" + subsystemName + "/Output Percents");
 
-        BadLog.createTopic(combo + "Current", "A", () -> talon.getOutputCurrent(),
+        BadLog.createTopic(combo + "Current", "A", talon::getOutputCurrent,
                 "join:" + subsystemName + "/Output Currents");
-        BadLog.createTopic(combo + "Temperature", "C", () -> talon.getTemperature(),
+        BadLog.createTopic(combo + "Temperature", "C", talon::getTemperature,
                 "join:" + subsystemName + "/Temperatures");
     }
 
