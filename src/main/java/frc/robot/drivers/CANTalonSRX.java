@@ -35,6 +35,6 @@ public class CANTalonSRX extends TalonSRX implements SpeedController {
 
     @Override
     public void stopMotor() {
-        set(0);
+        super.set(ControlMode.PercentOutput, 0);
     }
 }
