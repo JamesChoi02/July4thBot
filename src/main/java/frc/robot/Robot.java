@@ -25,7 +25,6 @@ import java.text.SimpleDateFormat;
  * directory.
  */
 public class Robot extends TimedRobot {
-    public static OI oi;
     public static DriveTrain driveTrain;
     public static BackCams backCams;
     public static Lifter lifter;
