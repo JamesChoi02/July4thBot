@@ -1,14 +1,41 @@
 package frc.robot.subsystem;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import frc.robot.RobotMap;
+import frc.robot.drivers.CANTalonSRX;
 
-public class Grabber extends Subsystem {
-    public void spin(double speed) {
+public class Grabber extends BadSubsystem {
+    private CANTalonSRX motor;
 
+    @Override
+    public void initComponents() {
+        motor = new CANTalonSRX(RobotMap.GRABBER_MOTOR);
     }
 
     @Override
-    protected void initDefaultCommand() {
+    public void initSendable(SendableBuilder builder) {
+        builder.addDoubleProperty("Output", () -> motor.get(), null);
+        builder.addDoubleProperty("Current", () -> motor.getOutputCurrent(), null);
+    }
 
+    public void spin(double speed) {
+        motor.set(speed);
+    }
+
+    @Override
+    public void stop() {
+        motor.stopMotor();
+    }
+
+    @Override
+    public void close() {
+        motor.DestroyObject();
+    }
+
+    @Override
+    public void test() {
+        spin(0.1);
+        sleep(2);
+        stop();
     }
 }

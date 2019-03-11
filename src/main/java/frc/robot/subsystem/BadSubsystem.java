@@ -25,8 +25,6 @@ public abstract class BadSubsystem extends Subsystem {
                 obj = field.get(this);
                 deviceName = field.getName();
                 AutoLogger.log(subsystemName, deviceName, obj);
-            } catch (UnsupportedOperationException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 continue;
             }
@@ -41,5 +39,18 @@ public abstract class BadSubsystem extends Subsystem {
         System.out.println("No Default Command Set For " + getName());
     }
 
+    public abstract void stop();
+
+    @Override
+    public abstract void close();
+
     public abstract void test();
+
+    protected void sleep(double time_seconds) {
+        try {
+            Thread.sleep((long) (1000 * time_seconds));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
