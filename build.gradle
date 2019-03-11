@@ -53,7 +53,7 @@ dependencies {
     compile wpi.deps.vendor.java()
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
-    testCompile 'junit:junit:4.12'
+    compile 'junit:junit:4.12'
     compile "com.github.dominikWin:badlog:316a7682bc890eb5c0d1df531f60f867dcdeec01"
 }
 
