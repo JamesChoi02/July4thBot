@@ -33,6 +33,8 @@ public class DriveTrain extends BadSubsystem {
     public void initSendable(SendableBuilder builder) {
         builder.addDoubleProperty("Left Output", () -> leftLeaderMotor.get(), null);
         builder.addDoubleProperty("Right Output", () -> rightLeaderMotor.get(), null);
+        builder.addDoubleProperty("Velocity", () -> navx.getVelocityX(), null);
+        builder.addDoubleProperty("Yaw", () -> navx.getYaw(), null);
     }
 
     public void tankDrive(double left, double right) {
