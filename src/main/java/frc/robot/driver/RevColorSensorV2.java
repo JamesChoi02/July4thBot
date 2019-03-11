@@ -108,10 +108,10 @@ public class RevColorSensorV2 extends I2C implements AutoCloseable {
         byteBuffer.clear();
         read(COMMAND | MULTI_BYTE_BIT | CDATAL, 8, byteBuffer);
 
-        short alpha = asUnsignedShort(byteBuffer.getShort(0));
-        short red = asUnsignedShort(byteBuffer.getShort(2));
-        short green = asUnsignedShort(byteBuffer.getShort(4));
-        short blue = asUnsignedShort(byteBuffer.getShort(6));
+        short alpha = (short) (asUnsignedShort(byteBuffer.getShort(0)) / 20);
+        short red = (short) (asUnsignedShort(byteBuffer.getShort(2)) / 20);
+        short green = (short) (asUnsignedShort(byteBuffer.getShort(4)) / 20);
+        short blue = (short) (asUnsignedShort(byteBuffer.getShort(6)) / 20);
 
         return new short[] { red, green, blue, alpha };
     }
