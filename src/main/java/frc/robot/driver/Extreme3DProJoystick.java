@@ -1,8 +1,10 @@
 package frc.robot.driver;
 
+import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.util.Loggable;
 
-public class Extreme3DProJoystick extends Joystick {
+public class Extreme3DProJoystick extends Joystick implements Loggable {
     public Extreme3DProJoystick(int port) {
         super(port);
     }
@@ -49,5 +51,14 @@ public class Extreme3DProJoystick extends Joystick {
 
     public boolean getButton12() {
         return getRawButton(12);
+    }
+
+    @Override
+    public void initLogging() {
+        String name = getClass().getSimpleName();
+        BadLog.createTopic(name + "X", BadLog.UNITLESS, this::getX);
+        BadLog.createTopic(name + "Y", BadLog.UNITLESS, this::getY);
+        BadLog.createTopic(name + "Z", BadLog.UNITLESS, this::getZ);
+        BadLog.createTopic(name + "Throttle", BadLog.UNITLESS, this::getThrottle);
     }
 }
