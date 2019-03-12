@@ -8,8 +8,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.util.AutoLogger;
+import frc.robot.util.Loggable;
 
-public abstract class BadSubsystem extends Subsystem {
+public abstract class BadSubsystem extends Subsystem implements Loggable {
     public BadSubsystem() {
         super();
         initComponents();
@@ -18,6 +19,7 @@ public abstract class BadSubsystem extends Subsystem {
 
     public abstract void initComponents();
 
+    @Override
     public void initLogging() {
         String subsystemName = getName();
         Object obj;

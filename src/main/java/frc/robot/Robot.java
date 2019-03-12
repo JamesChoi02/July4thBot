@@ -13,9 +13,7 @@ import frc.robot.subsystem.BackCams;
 import frc.robot.subsystem.DriveTrain;
 import frc.robot.subsystem.Grabber;
 import frc.robot.subsystem.Lifter;
-import badlog.lib.BadLog;
-import java.util.Date;
-import java.text.SimpleDateFormat;
+import frc.robot.util.LoggerThread;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,39 +29,38 @@ public class Robot extends TimedRobot {
     public static Articulator articulator;
     public static Grabber grabber;
 
-    private BadLog logger;
-
     /**
      * This function is run when the robot is first started up and should be used
      * for any initialization code.
      */
     @Override
     public void robotInit() {
-        String timestamp = new SimpleDateFormat("yyyy'-'MM'-'dd'T'HH'-'mm").format(new Date());
-        logger = BadLog.init("/home/lvuser/" + timestamp + ".badbag");
-
-        BadLog.createValue("OS Version", System.getProperty("os.version"));
-
-        BadLog.createValue("Match Type", DriverStation.getInstance().getMatchType().toString());
-        BadLog.createValue("Match Number", "" + DriverStation.getInstance().getMatchNumber());
-        BadLog.createTopic("Match Time", "s", DriverStation.getInstance()::getMatchTime);
-
-        if (DriveTrain.isEnabled())
+        if (DriveTrain.isEnabled()) {
             driveTrain = new DriveTrain();
+            LoggerThread.addLoggable(driveTrain);
+        }
 
-        if (BackCams.isEnabled())
+        if (BackCams.isEnabled()) {
             backCams = new BackCams();
+            LoggerThread.addLoggable(backCams);
+        }
 
-        if (Lifter.isEnabled())
+        if (Lifter.isEnabled()) {
             lifter = new Lifter();
+            LoggerThread.addLoggable(lifter);
+        }
 
-        if (Articulator.isEnabled())
+        if (Articulator.isEnabled()) {
             articulator = new Articulator();
+            LoggerThread.addLoggable(articulator);
+        }
 
-        if (Grabber.isEnabled())
+        if (Grabber.isEnabled()) {
             grabber = new Grabber();
+            LoggerThread.addLoggable(grabber);
+        }
 
-        logger.finishInitialization();
+        new LoggerThread(50).start();
     }
 
     /**
@@ -93,8 +90,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        logger.updateTopics();
-        logger.log();
+
     }
 
     /**
