@@ -8,6 +8,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
 
 public class Lifter extends BadSubsystem {
+    public enum Position {
+        HATCH_HIGH(38), HATCH_MIDDLE(24), HATCH_LOW(2), BALL_HIGH(46), BALL_MIDDLE(32), BALL_LOW(8);
+
+        private final double revolutions;
+
+        private Position(double revolutions) {
+            this.revolutions = revolutions;
+        }
+
+        public double getRevolutions() {
+            return revolutions;
+        }
+    }
+
     private CANSparkMax motor;
 
     @Override

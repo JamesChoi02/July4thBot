@@ -2,18 +2,19 @@ package frc.robot.command;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystem.Lifter.Position;
 
 public class MoveLifterTo extends Command {
-    private double position;
+    private Position position;
 
-    public MoveLifterTo(double position) {
+    public MoveLifterTo(Position position) {
         super(Robot.lifter);
         this.position = position;
     }
 
     @Override
     protected void execute() {
-        Robot.lifter.moveTo(position);
+        Robot.lifter.moveTo(position.getRevolutions());
     }
 
     @Override
