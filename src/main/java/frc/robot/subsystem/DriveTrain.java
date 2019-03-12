@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -46,16 +45,6 @@ public class DriveTrain extends BadSubsystem {
             differentialDrive.tankDrive(-right, -left);
         else
             differentialDrive.tankDrive(left, right);
-    }
-
-    public void driveStraight(double speed) {
-        if (inverted) {
-            leftLeaderMotor.getPIDController().setReference(-speed, ControlType.kDutyCycle);
-            rightLeaderMotor.getPIDController().setReference(-speed, ControlType.kDutyCycle);
-        } else {
-            leftLeaderMotor.getPIDController().setReference(speed, ControlType.kDutyCycle);
-            rightLeaderMotor.getPIDController().setReference(speed, ControlType.kDutyCycle);
-        }
     }
 
     public double getAngle() {
