@@ -2,8 +2,6 @@ package frc.robot.subsystem;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -47,8 +45,11 @@ public class Cameras extends BadSubsystem {
     }
 
     private Camera getActiveCamera() {
-        return Arrays.stream(Camera.values()).filter((camera) -> camera.getDevice() == server.getSource()).findFirst()
-                .orElse(null);
+        for (Camera camera : Camera.values())
+            if (camera.getDevice() == server.getSource())
+                return camera;
+
+        return null;
     }
 
     @Override
@@ -58,7 +59,8 @@ public class Cameras extends BadSubsystem {
 
     @Override
     public void close() {
-        Arrays.stream(Camera.values()).forEach((camera) -> camera.getDevice().close());
+        for (Camera camera : Camera.values())
+            camera.getDevice().close();
         server.close();
     }
 
