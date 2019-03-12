@@ -21,56 +21,83 @@ import frc.robot.subsystem.BackCams;
 import frc.robot.subsystem.DriveTrain;
 import frc.robot.subsystem.Grabber;
 import frc.robot.subsystem.Lifter;
+import frc.robot.subsystem.Lifter.Position;
+import frc.robot.util.Logger;
+import frc.robot.util.LoggerThread;
 
 public class OI {
-    public static Xbox360Controller xboxController = new Xbox360Controller(0);
+    public static Xbox360Controller xboxController = new Xbox360Controller(0, 0.1, 0.1);
     public static Extreme3DProJoystick joystick = new Extreme3DProJoystick(1);
     private static List<Trigger> binds = new LinkedList<>();
 
     static {
+        LoggerThread.addLoggable(xboxController);
+        LoggerThread.addLoggable(joystick);
+
         if (DriveTrain.isEnabled()) {
-            bind(() -> Math.abs(xboxController.getLeftY()) > 0.1 || Math.abs(xboxController.getRightY()) > 0.1,
-                    new TankDrive(xboxController::getLeftY, xboxController::getRightY), true);
-            bind(() -> xboxController.getRightTrigger() > 0.1, new DriveStraight(xboxController::getRightTrigger),
-                    true);
-            bind(() -> xboxController.getLeftTrigger() > 0.1, new DriveStraight(() -> -xboxController.getLeftTrigger()),
-                    true);
-            bind(xboxController::getAButton, new InvertDriveTrain(), false);
+            runWhile(() -> xboxController.getLeftYActive() || xboxController.getRightYActive(),
+                    new TankDrive(xboxController::getLeftY, xboxController::getRightY));
+            runWhile(xboxController::getRightTriggerPulled, new DriveStraight(() -> xboxController.getRightTrigger()));
+            runWhile(xboxController::getLeftTriggerPulled, new DriveStraight(() -> -xboxController.getLeftTrigger()));
+            runWhile(xboxController::getAButton, new InvertDriveTrain());
         }
 
         if (BackCams.isEnabled()) {
-            bind(() -> xboxController.getLeftBumper() || xboxController.getRightBumper(), new SpinBackCams(() -> 2.0),
-                    true);
+            Supplier<Double> backCamSpeed = () -> 1.0;
+
+            runWhile(() -> xboxController.getLeftBumper() || xboxController.getRightBumper(),
+                    new SpinBackCams(backCamSpeed));
         }
 
         if (Lifter.isEnabled()) {
-            bind(joystick::getPovUp, new MoveLifter(() -> 0.5), true);
-            bind(joystick::getPovDown, new MoveLifter(() -> -0.25), true);
+            Supplier<Double> raiseLifterSpeed = () -> 0.5;
+            Supplier<Double> lowerLifterSpeed = () -> -0.2;
 
-            bind(joystick::getButton7, new MoveLifterTo(2), false);
-            bind(joystick::getButton9, new MoveLifterTo(1.5), false);
-            bind(joystick::getButton11, new MoveLifterTo(1), false);
+            runWhile(joystick::getPovUp, new MoveLifter(raiseLifterSpeed));
+            runWhile(joystick::getPovDown, new MoveLifter(lowerLifterSpeed));
 
-            bind(joystick::getButton8, new MoveLifterTo(2), false);
-            bind(joystick::getButton10, new MoveLifterTo(1.5), false);
-            bind(joystick::getButton12, new MoveLifterTo(1), false);
+            runWhen(joystick::getButton7, new MoveLifterTo(Position.HATCH_HIGH));
+            runWhen(joystick::getButton9, new MoveLifterTo(Position.HATCH_MIDDLE));
+            runWhen(joystick::getButton11, new MoveLifterTo(Position.HATCH_LOW));
+
+            runWhen(joystick::getButton8, new MoveLifterTo(Position.BALL_HIGH));
+            runWhen(joystick::getButton10, new MoveLifterTo(Position.BALL_MIDDLE));
+            runWhen(joystick::getButton12, new MoveLifterTo(Position.BALL_LOW));
         }
 
         if (Articulator.isEnabled()) {
-            bind(() -> joystick.getY() > 0.1, new RotateArticulator(() -> 0.35), true);
-            bind(() -> joystick.getY() < -0.1, new RotateArticulator(() -> -0.35), true);
+            double joystickDeadband = 0.1;
+            double articulateUpMaxSpeed = 0.35;
+            double articulateDownMaxSpeed = -0.35;
+
+            runWhile(() -> joystick.getY() > joystickDeadband,
+                    new RotateArticulator(() -> Math.min(joystick.getY(), articulateUpMaxSpeed)));
+            runWhile(() -> joystick.getY() < -joystickDeadband,
+                    new RotateArticulator(() -> Math.max(joystick.getY(), articulateDownMaxSpeed)));
         }
 
         if (Grabber.isEnabled()) {
-            bind(joystick::getTrigger, new SpinGrabber(() -> 0.35), true);
-            bind(joystick::getSideThumbButton, new SpinGrabber(() -> -0.35), true);
+            Supplier<Double> grabInSpeed = () -> 0.35;
+            Supplier<Double> shootOutSpeed = () -> -0.35;
+
+            runWhile(joystick::getTrigger, new SpinGrabber(grabInSpeed));
+            runWhile(joystick::getSideThumbButton, new SpinGrabber(shootOutSpeed));
         }
+    }
+
+    private static void runWhen(Supplier<Boolean> condition, Command command) {
+        bind(condition, command, false);
+    }
+
+    private static void runWhile(Supplier<Boolean> condition, Command command) {
+        bind(condition, command, true);
     }
 
     private static void bind(Supplier<Boolean> condition, Command command, boolean continuous) {
         Trigger trigger = new Trigger() {
             @Override
             public boolean get() {
+                Logger.log("Trigger polled for " + command.getClass().getSimpleName());
                 return condition.get();
             }
         };
