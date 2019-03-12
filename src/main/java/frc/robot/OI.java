@@ -23,7 +23,6 @@ import frc.robot.subsystem.Grabber;
 import frc.robot.subsystem.Lifter;
 import frc.robot.subsystem.Lifter.Position;
 import frc.robot.util.Logger;
-import frc.robot.util.LoggerThread;
 
 public class OI {
     public static Xbox360Controller xboxController = new Xbox360Controller(0, 0.1, 0.1);
@@ -31,8 +30,8 @@ public class OI {
     private static List<Trigger> binds = new LinkedList<>();
 
     static {
-        LoggerThread.addLoggable(xboxController);
-        LoggerThread.addLoggable(joystick);
+        Logger.addLoggable(xboxController);
+        Logger.addLoggable(joystick);
 
         if (DriveTrain.isEnabled()) {
             runWhile(() -> xboxController.getLeftYActive() || xboxController.getRightYActive(),

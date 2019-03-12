@@ -13,7 +13,7 @@ import frc.robot.subsystem.BackCams;
 import frc.robot.subsystem.DriveTrain;
 import frc.robot.subsystem.Grabber;
 import frc.robot.subsystem.Lifter;
-import frc.robot.util.LoggerThread;
+import frc.robot.util.Logger;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,30 +37,30 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         if (DriveTrain.isEnabled()) {
             driveTrain = new DriveTrain();
-            LoggerThread.addLoggable(driveTrain);
+            Logger.addLoggable(driveTrain);
         }
 
         if (BackCams.isEnabled()) {
             backCams = new BackCams();
-            LoggerThread.addLoggable(backCams);
+            Logger.addLoggable(backCams);
         }
 
         if (Lifter.isEnabled()) {
             lifter = new Lifter();
-            LoggerThread.addLoggable(lifter);
+            Logger.addLoggable(lifter);
         }
 
         if (Articulator.isEnabled()) {
             articulator = new Articulator();
-            LoggerThread.addLoggable(articulator);
+            Logger.addLoggable(articulator);
         }
 
         if (Grabber.isEnabled()) {
             grabber = new Grabber();
-            LoggerThread.addLoggable(grabber);
+            Logger.addLoggable(grabber);
         }
 
-        new LoggerThread(50).start();
+        new Logger(50).start();
     }
 
     /**
