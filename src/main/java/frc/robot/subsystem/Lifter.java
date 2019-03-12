@@ -9,7 +9,8 @@ import frc.robot.RobotMap;
 
 public class Lifter extends BadSubsystem {
     public enum Position {
-        HATCH_HIGH(38), HATCH_MIDDLE(24), HATCH_LOW(2), BALL_HIGH(46), BALL_MIDDLE(32), BALL_LOW(8);
+        HATCH_HIGH(38.25), HATCH_MIDDLE(22.1), HATCH_LOW(2.6), BALL_HIGH(45.4), BALL_MIDDLE(28), BALL_LOW(10.4),
+        GROUND(0);
 
         private final double revolutions;
 
