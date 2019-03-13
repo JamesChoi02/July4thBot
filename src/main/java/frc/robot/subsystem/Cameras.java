@@ -2,6 +2,7 @@ package frc.robot.subsystem;
 
 import static org.junit.Assert.assertTrue;
 
+import badlog.lib.BadLog;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -34,6 +35,12 @@ public class Cameras extends BadSubsystem {
     public void initSendable(SendableBuilder builder) {
         builder.addStringProperty("Camera Name", () -> getActiveCamera().getDevice().getName(), null);
         builder.addDoubleProperty("Camera FPS", () -> getActiveCamera().getDevice().getActualFPS(), null);
+    }
+
+    @Override
+    public void initLogging() {
+        BadLog.createTopic("Camera FPS", "FPS", () -> getActiveCamera().getDevice().getActualFPS());
+        BadLog.createTopic("Camera Data Rate", "Bytes/s", () -> getActiveCamera().getDevice().getActualDataRate());
     }
 
     public void setCamera(Camera camera) {
