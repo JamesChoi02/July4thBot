@@ -10,6 +10,7 @@ public class Xbox360Controller extends XboxController implements Loggable {
 
     public Xbox360Controller(int port) {
         super(port);
+        initLogging();
     }
 
     public Xbox360Controller(int port, double joystickDeadband, double triggerDeadband) {

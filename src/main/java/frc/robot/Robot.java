@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystem.Articulator;
 import frc.robot.subsystem.BackCams;
 import frc.robot.subsystem.DriveTrain;
@@ -28,6 +29,7 @@ public class Robot extends TimedRobot {
     public static Lifter lifter;
     public static Articulator articulator;
     public static Grabber grabber;
+    public static OI oi;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -35,68 +37,36 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        Logger.startInitialization();
+
         if (DriveTrain.isEnabled()) {
             driveTrain = new DriveTrain();
-            Logger.addLoggable(driveTrain);
         }
 
         if (BackCams.isEnabled()) {
             backCams = new BackCams();
-            Logger.addLoggable(backCams);
         }
 
         if (Lifter.isEnabled()) {
             lifter = new Lifter();
-            Logger.addLoggable(lifter);
         }
 
         if (Articulator.isEnabled()) {
             articulator = new Articulator();
-            Logger.addLoggable(articulator);
         }
 
         if (Grabber.isEnabled()) {
             grabber = new Grabber();
-            Logger.addLoggable(grabber);
         }
 
-        new Logger(50).start();
+        oi = new OI();
+
+        Logger.finishInitialization();
     }
 
-    /**
-     * This function is run once each time the robot enters autonomous mode.
-     */
     @Override
-    public void autonomousInit() {
-    }
-
-    /**
-     * This function is called periodically during autonomous.
-     */
-    @Override
-    public void autonomousPeriodic() {
-        teleopPeriodic();
-    }
-
-    /**
-     * This function is called once each time the robot enters teleoperated mode.
-     */
-    @Override
-    public void teleopInit() {
-    }
-
-    /**
-     * This function is called periodically during teleoperated mode.
-     */
-    @Override
-    public void teleopPeriodic() {
-
-    }
-
-    /**
-     * This function is called periodically during test mode.
-     */
-    @Override
-    public void testPeriodic() {
+    public void robotPeriodic() {
+        Scheduler.getInstance().run();
+        Logger.update();
     }
 }

@@ -9,16 +9,12 @@ import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 
-public class Logger extends Thread {
+public class Logger {
     private static final boolean PRINT_TIMESTAMP = true;
     private static final boolean PRINT_CALLER = true;
-    private static List<Loggable> loggables = new LinkedList<>();
-    private final BadLog logger;
-    private final long delta;
+    private static BadLog logger;
 
-    public Logger(long delta) {
-        this.delta = delta;
-
+    public static void startInitialization() {
         String timestamp = new SimpleDateFormat("yyyy'-'MM'-'dd'T'HH'-'mm").format(new Date());
         logger = BadLog.init("/home/lvuser/" + timestamp + ".badbag");
 
@@ -29,24 +25,17 @@ public class Logger extends Thread {
         BadLog.createTopic("Battery Voltage", "V", RobotController::getBatteryVoltage);
         BadLog.createValue("Alliance", DriverStation.getInstance().getAlliance().name());
         BadLog.createValue("Event Name", DriverStation.getInstance().getEventName());
+    }
 
-        for (Loggable loggable : loggables)
-            loggable.initLogging();
-
+    public static void finishInitialization() {
         logger.finishInitialization();
     }
 
-    public void run() {
+    public static void update() {
         logger.updateTopics();
         logger.log();
-
-        try {
-            Thread.sleep(delta);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
-    
+
     public static void log(String msg) {
         List<String> prefixes = new LinkedList<>();
 
@@ -70,9 +59,5 @@ public class Logger extends Thread {
         }
 
         System.out.println(msg);
-    }
-
-    public static void addLoggable(Loggable loggable) {
-        loggables.add(loggable);
     }
 }

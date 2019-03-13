@@ -7,6 +7,7 @@ import frc.robot.util.Loggable;
 public class Extreme3DProJoystick extends Joystick implements Loggable {
     public Extreme3DProJoystick(int port) {
         super(port);
+        initLogging();
     }
 
     public boolean getPovUp() {

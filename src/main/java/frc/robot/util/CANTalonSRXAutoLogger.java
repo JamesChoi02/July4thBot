@@ -3,28 +3,16 @@ package frc.robot.util;
 import badlog.lib.BadLog;
 import frc.robot.driver.CANTalonSRX;
 
-public class CANTalonSRXAutoLogger extends AutoLogger<CANTalonSRX> {
-    public static void register() {
-        try {
-            AutoLoggerFactory.registerAutoLogger(CANTalonSRX.class, CANTalonSRXAutoLogger.class.getConstructors()[0]);
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-    }
+public class CANTalonSRXAutoLogger implements AutoLogger<CANTalonSRX> {
+    public void log(String subsystemName, String combo, CANTalonSRX talon) {
+        BadLog.createValue(combo + "Firmware", "" + talon.getFirmwareVersion());
 
-    public CANTalonSRXAutoLogger(String subsystemName, String deviceName, CANTalonSRX talon) {
-        super(subsystemName, deviceName, talon);
-    }
-
-    public void initLogging() {
-        BadLog.createValue(combo + "Firmware", "" + device.getFirmwareVersion());
-
-        BadLog.createTopic(combo + "Output Percent", BadLog.UNITLESS, device::get,
+        BadLog.createTopic(combo + "Output Percent", BadLog.UNITLESS, talon::get,
                 "join:" + subsystemName + "/Output Percents");
 
-        BadLog.createTopic(combo + "Current", "A", device::getOutputCurrent,
+        BadLog.createTopic(combo + "Current", "A", talon::getOutputCurrent,
                 "join:" + subsystemName + "/Output Currents");
-        BadLog.createTopic(combo + "Temperature", "C", device::getTemperature,
+        BadLog.createTopic(combo + "Temperature", "C", talon::getTemperature,
                 "join:" + subsystemName + "/Temperatures");
     }
 }

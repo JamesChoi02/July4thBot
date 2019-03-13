@@ -4,28 +4,16 @@ import com.revrobotics.CANSparkMax;
 
 import badlog.lib.BadLog;
 
-public class CANSparkMaxAutoLogger extends AutoLogger<CANSparkMax> {
-    public static void register() {
-        try {
-            AutoLoggerFactory.registerAutoLogger(CANSparkMax.class, CANSparkMaxAutoLogger.class.getConstructors()[0]);
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-    }
+public class CANSparkMaxAutoLogger implements AutoLogger<CANSparkMax> {
+    public void log(String subsystemName, String combo, CANSparkMax spark) {
+        BadLog.createValue(combo + "Firmware", spark.getFirmwareString());
 
-    public CANSparkMaxAutoLogger(String subsystemName, String deviceName, CANSparkMax spark) {
-        super(subsystemName, deviceName, spark);
-    }
-
-    public void initLogging() {
-        BadLog.createValue(combo + "Firmware", device.getFirmwareString());
-
-        BadLog.createTopic(combo + "Output Percent", BadLog.UNITLESS, device::get,
+        BadLog.createTopic(combo + "Output Percent", BadLog.UNITLESS, spark::get,
                 "join:" + subsystemName + "/Output Percents");
 
-        BadLog.createTopic(combo + "Current", "A", device::getOutputCurrent,
+        BadLog.createTopic(combo + "Current", "A", spark::getOutputCurrent,
                 "join:" + subsystemName + "/Output Currents");
-        BadLog.createTopic(combo + "Temperature", "C", device::getMotorTemperature,
+        BadLog.createTopic(combo + "Temperature", "C", spark::getMotorTemperature,
                 "join:" + subsystemName + "/Temperatures");
     }
 }
