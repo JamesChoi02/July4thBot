@@ -5,6 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 import badlog.lib.BadLog;
 
 public class AHRSAutoLogger implements AutoLogger<AHRS> {
+    @Override
     public void log(String subsystemName, String combo, AHRS navx) {
         BadLog.createValue(combo + "Firmware", navx.getFirmwareVersion());
 

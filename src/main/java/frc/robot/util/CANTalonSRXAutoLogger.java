@@ -4,6 +4,7 @@ import badlog.lib.BadLog;
 import frc.robot.driver.CANTalonSRX;
 
 public class CANTalonSRXAutoLogger implements AutoLogger<CANTalonSRX> {
+    @Override
     public void log(String subsystemName, String combo, CANTalonSRX talon) {
         BadLog.createValue(combo + "Firmware", "" + talon.getFirmwareVersion());
 

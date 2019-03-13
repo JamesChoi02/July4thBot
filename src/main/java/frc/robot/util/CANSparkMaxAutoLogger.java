@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMax;
 import badlog.lib.BadLog;
 
 public class CANSparkMaxAutoLogger implements AutoLogger<CANSparkMax> {
+    @Override
     public void log(String subsystemName, String combo, CANSparkMax spark) {
         BadLog.createValue(combo + "Firmware", spark.getFirmwareString());
 
