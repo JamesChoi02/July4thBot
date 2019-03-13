@@ -25,13 +25,14 @@ import frc.robot.subsystem.Lifter.Position;
 import frc.robot.util.Logger;
 
 public class OI {
-    public static Xbox360Controller xboxController = new Xbox360Controller(0, 0.1, 0.1);
-    public static Extreme3DProJoystick joystick = new Extreme3DProJoystick(1);
-    private static List<Trigger> binds = new LinkedList<>();
+    public Xbox360Controller xboxController;
+    public Extreme3DProJoystick joystick;
+    private List<Trigger> binds;
 
-    static {
-        Logger.addLoggable(xboxController);
-        Logger.addLoggable(joystick);
+    public OI() {
+        xboxController = new Xbox360Controller(0, 0.1, 0.1);
+        joystick = new Extreme3DProJoystick(1);
+        binds = new LinkedList<>();
 
         if (DriveTrain.isEnabled()) {
             runWhile(() -> xboxController.getLeftYActive() || xboxController.getRightYActive(),
@@ -84,15 +85,15 @@ public class OI {
         }
     }
 
-    private static void runWhen(Supplier<Boolean> condition, Command command) {
+    private void runWhen(Supplier<Boolean> condition, Command command) {
         bind(condition, command, false);
     }
 
-    private static void runWhile(Supplier<Boolean> condition, Command command) {
+    private void runWhile(Supplier<Boolean> condition, Command command) {
         bind(condition, command, true);
     }
 
-    private static void bind(Supplier<Boolean> condition, Command command, boolean continuous) {
+    private void bind(Supplier<Boolean> condition, Command command, boolean continuous) {
         Trigger trigger = new Trigger() {
             @Override
             public boolean get() {
