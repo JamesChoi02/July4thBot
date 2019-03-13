@@ -146,8 +146,4 @@ public class RevColorSensorV2 extends I2C implements AutoCloseable {
         else
             return signedShort;
     }
-
-    public void close() {
-        close();
-    }
 }
