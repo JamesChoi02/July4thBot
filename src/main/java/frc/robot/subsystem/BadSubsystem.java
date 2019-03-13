@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.util.AutoLogger;
+import frc.robot.util.AutoLoggerFactory;
 import frc.robot.util.Loggable;
+import frc.robot.util.Logger;
 
 public abstract class BadSubsystem extends Subsystem implements Loggable {
     public BadSubsystem() {
@@ -29,7 +31,10 @@ public abstract class BadSubsystem extends Subsystem implements Loggable {
             try {
                 obj = field.get(this);
                 deviceName = field.getName();
-                AutoLogger.log(subsystemName, deviceName, obj);
+                AutoLogger<?> autoLogger = AutoLoggerFactory.getAutoLoggerFor(subsystemName, deviceName, obj);
+                autoLogger.initLogging();
+            } catch (NoClassDefFoundError e) {
+                Logger.log(e.getMessage());
             } catch (Exception e) {
                 continue;
             }
