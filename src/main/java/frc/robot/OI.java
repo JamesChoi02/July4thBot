@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.command.ChangeCameraView;
 import frc.robot.command.DriveStraight;
 import frc.robot.command.InvertDriveTrain;
 import frc.robot.command.MoveLifter;
@@ -18,6 +19,7 @@ import frc.robot.driver.Extreme3DProJoystick;
 import frc.robot.driver.Xbox360Controller;
 import frc.robot.subsystem.Articulator;
 import frc.robot.subsystem.BackCams;
+import frc.robot.subsystem.Cameras;
 import frc.robot.subsystem.DriveTrain;
 import frc.robot.subsystem.Grabber;
 import frc.robot.subsystem.Lifter;
@@ -30,8 +32,9 @@ public class OI {
     private List<Trigger> binds;
 
     public OI() {
+        Logger.log("Initializing Bindings");
         xboxController = new Xbox360Controller(0, 0.1, 0.1);
-        joystick = new Extreme3DProJoystick(1);
+        // joystick = new Extreme3DProJoystick(1);
         binds = new LinkedList<>();
 
         if (DriveTrain.isEnabled()) {
@@ -47,6 +50,10 @@ public class OI {
 
             runWhile(() -> xboxController.getLeftBumper() || xboxController.getRightBumper(),
                     new SpinBackCams(backCamSpeed));
+        }
+
+        if (Cameras.isEnabled()) {
+            runWhen(xboxController::getBButton, new ChangeCameraView());
         }
 
         if (Lifter.isEnabled()) {
@@ -97,7 +104,7 @@ public class OI {
         Trigger trigger = new Trigger() {
             @Override
             public boolean get() {
-                Logger.log("Trigger polled for " + command.getClass().getSimpleName());
+                // Logger.log("Trigger polled " + command.getClass().getSimpleName() + "\t\t\tValue: " + condition.get());
                 return condition.get();
             }
         };
@@ -108,5 +115,6 @@ public class OI {
             trigger.whenActive(command);
 
         binds.add(trigger);
+        Logger.log("Bound condition to " + command.getClass().getSimpleName());
     }
 }

@@ -9,8 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.subsystem.Articulator;
 import frc.robot.subsystem.BackCams;
+import frc.robot.subsystem.Cameras;
 import frc.robot.subsystem.DriveTrain;
 import frc.robot.subsystem.Grabber;
 import frc.robot.subsystem.Lifter;
@@ -29,6 +31,7 @@ public class Robot extends TimedRobot {
     public static Lifter lifter;
     public static Articulator articulator;
     public static Grabber grabber;
+    public static Cameras cameras;
     public static OI oi;
 
     /**
@@ -59,6 +62,10 @@ public class Robot extends TimedRobot {
             grabber = new Grabber();
         }
 
+        if (Cameras.isEnabled()) {
+            cameras = new Cameras();
+        }
+
         oi = new OI();
 
         Logger.finishInitialization();
@@ -68,5 +75,6 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         Scheduler.getInstance().run();
         Logger.update();
+        LiveWindow.updateValues();
     }
 }
