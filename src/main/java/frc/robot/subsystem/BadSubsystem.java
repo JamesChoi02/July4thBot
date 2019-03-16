@@ -4,13 +4,9 @@ import java.lang.reflect.Field;
 
 import org.junit.Test;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilderImpl;
 import frc.robot.util.AutoLoggerFactory;
 import frc.robot.util.Loggable;
 import frc.robot.util.Logger;
@@ -20,13 +16,6 @@ public abstract class BadSubsystem extends Subsystem implements Loggable {
         super();
         initComponents();
         initLogging();
-        SendableBuilderImpl sendableBuilder = new SendableBuilderImpl();
-        NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
-        NetworkTable networkTable = networkTableInstance.getTable("/LiveWindow");
-        sendableBuilder.setTable(networkTable);
-        super.initSendable(sendableBuilder);
-        initSendable(sendableBuilder);
-        LiveWindow.add(this);
     }
 
     public abstract void initComponents();

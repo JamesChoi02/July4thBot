@@ -64,6 +64,7 @@ public class Robot extends TimedRobot {
 
         if (Cameras.isEnabled()) {
             cameras = new Cameras();
+            LiveWindow.add(cameras);
         }
 
         oi = new OI();

@@ -38,6 +38,11 @@ public class DriveTrain extends BadSubsystem {
         builder.addDoubleProperty("Right Output", () -> rightLeaderMotor.get(), null);
         builder.addDoubleProperty("Velocity", () -> navx.getVelocityX(), null);
         builder.addDoubleProperty("Yaw", () -> navx.getYaw(), null);
+        addChild(leftLeaderMotor);
+        addChild(leftFollowerMotor);
+        addChild(rightLeaderMotor);
+        addChild(rightFollowerMotor);
+        addChild(navx);
     }
 
     public void tankDrive(double left, double right) {
@@ -79,7 +84,11 @@ public class DriveTrain extends BadSubsystem {
         sleep(1);
         assertTrue("Right DriveTrain Motors Move", rightLeaderMotor.getEncoder().getVelocity() > 0);
         sleep(1);
-        
+
         stop();
+    }
+
+    public static boolean isEnabled() {
+        return false;
     }
 }
