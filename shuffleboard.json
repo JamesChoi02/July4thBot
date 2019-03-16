@@ -1,0 +1,88 @@
+{
+  "tabPane": [
+    {
+      "title": "SmartDashboard",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "SmartDashboard/",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {}
+      }
+    },
+    {
+      "title": "LiveWindow",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "LiveWindow/",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              2,
+              3
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/Cameras",
+              "_title": "LiveWindow/Cameras",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Cameras/Camera Name",
+                  "_title": "Camera Name"
+                }
+              ]
+            }
+          },
+          "0,3": {
+            "size": [
+              2,
+              3
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/DriveTrain",
+              "_title": "DriveTrain",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/DriveTrain/Left Output",
+                  "_title": "Left Output"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/DriveTrain/Right Output",
+                  "_title": "Right Output"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/DriveTrain/Velocity",
+                  "_title": "Velocity"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/DriveTrain/Yaw",
+                  "_title": "Yaw"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "windowGeometry": {
+    "x": -1928.0,
+    "y": -8.0,
+    "width": 1936.0,
+    "height": 1056.0
+  }
+}
