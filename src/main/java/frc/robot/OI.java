@@ -70,6 +70,8 @@ public class OI {
             runWhen(joystick::getButton8, new MoveLifterTo(Position.BALL_HIGH));
             runWhen(joystick::getButton10, new MoveLifterTo(Position.BALL_MIDDLE));
             runWhen(joystick::getButton12, new MoveLifterTo(Position.BALL_LOW));
+
+            runWhen(joystick::getTopBackLeftButton, new MoveLifterTo(Position.GROUND));
         }
 
         if (Articulator.isEnabled()) {
@@ -104,7 +106,8 @@ public class OI {
         Trigger trigger = new Trigger() {
             @Override
             public boolean get() {
-                // Logger.log("Trigger polled " + command.getClass().getSimpleName() + "\t\t\tValue: " + condition.get());
+                // Logger.log("Trigger polled " + command.getClass().getSimpleName() +
+                // "\t\t\tValue: " + condition.get());
                 return condition.get();
             }
         };

@@ -30,6 +30,22 @@ public class Extreme3DProJoystick extends Joystick implements Loggable {
         return getRawButton(2);
     }
 
+    public boolean getTopBackLeftButton() {
+        return getRawButton(3);
+    }
+
+    public boolean getTopBackRightButton() {
+        return getRawButton(4);
+    }
+
+    public boolean getTopFrontLeftButton() {
+        return getRawButton(5);
+    }
+
+    public boolean getTopFrontRightButton() {
+        return getRawButton(6);
+    }
+
     public boolean getButton7() {
         return getRawButton(7);
     }
