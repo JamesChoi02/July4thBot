@@ -50,7 +50,8 @@ public class Xbox360Controller extends XboxController implements Loggable {
 
     @Override
     public double getTriggerAxis(Hand hand) {
-        return Math.abs(super.getTriggerAxis(hand)) > triggerDeadband ? super.getTriggerAxis(hand) : 0;
+        return Math.abs(super.getTriggerAxis(hand)) > triggerDeadband ? super.getTriggerAxis(hand)
+                : 0;
     }
 
     public double getLeftTrigger() {
@@ -84,7 +85,9 @@ public class Xbox360Controller extends XboxController implements Loggable {
         BadLog.createTopic(name + "Right Y", BadLog.UNITLESS, () -> getY(Hand.kRight));
         BadLog.createTopic(name + "Left X", BadLog.UNITLESS, () -> getX(Hand.kLeft));
         BadLog.createTopic(name + "Right X", BadLog.UNITLESS, () -> getX(Hand.kRight));
-        BadLog.createTopic(name + "Left Trigger", BadLog.UNITLESS, () -> getTriggerAxis(Hand.kLeft));
-        BadLog.createTopic(name + "Right Trigger", BadLog.UNITLESS, () -> getTriggerAxis(Hand.kRight));
+        BadLog.createTopic(name + "Left Trigger", BadLog.UNITLESS,
+                () -> getTriggerAxis(Hand.kLeft));
+        BadLog.createTopic(name + "Right Trigger", BadLog.UNITLESS,
+                () -> getTriggerAxis(Hand.kRight));
     }
 }

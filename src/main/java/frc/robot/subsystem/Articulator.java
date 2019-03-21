@@ -5,8 +5,7 @@ import frc.robot.RobotMap;
 import frc.robot.driver.CANTalonSRX;
 
 /**
- * Represents the articulation system for the claw that makes it tilt forward
- * and back
+ * Represents the articulation system for the claw that makes it tilt forward and back
  */
 public class Articulator extends BadSubsystem {
     private CANTalonSRX motor;

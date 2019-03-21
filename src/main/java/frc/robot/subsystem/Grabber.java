@@ -5,8 +5,7 @@ import frc.robot.RobotMap;
 import frc.robot.driver.CANTalonSRX;
 
 /**
- * Represents the wheels at the front of the claw that pull in and shoot out the
- * balls
+ * Represents the wheels at the front of the claw that pull in and shoot out the balls
  */
 public class Grabber extends BadSubsystem {
     private CANTalonSRX motor;

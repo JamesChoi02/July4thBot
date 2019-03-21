@@ -3,8 +3,8 @@ package frc.robot.driver;
 import edu.wpi.first.wpilibj.I2C;
 
 /**
- * Represents an Adafruit TCA9548A I2C Multiplexer which is used to toggle the
- * I2C connection for each of its 8 channels
+ * Represents an Adafruit TCA9548A I2C Multiplexer which is used to toggle the I2C connection for
+ * each of its 8 channels
  * 
  * @see https://www.adafruit.com/product/2717
  * @see https://cdn-shop.adafruit.com/datasheets/tca9548a.pdf

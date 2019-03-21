@@ -3,7 +3,6 @@ package frc.robot;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.command.ChangeCameraView;
@@ -44,8 +43,10 @@ public class OI {
         if (DriveTrain.isEnabled()) {
             runWhile(() -> xboxController.getLeftYActive() || xboxController.getRightYActive(),
                     new TankDrive(xboxController::getLeftY, xboxController::getRightY));
-            runWhile(xboxController::getRightTriggerPulled, new DriveStraight(() -> xboxController.getRightTrigger()));
-            runWhile(xboxController::getLeftTriggerPulled, new DriveStraight(() -> -xboxController.getLeftTrigger()));
+            runWhile(xboxController::getRightTriggerPulled,
+                    new DriveStraight(() -> xboxController.getRightTrigger()));
+            runWhile(xboxController::getLeftTriggerPulled,
+                    new DriveStraight(() -> -xboxController.getLeftTrigger()));
             runWhile(xboxController::getAButton, new InvertDriveTrain());
         }
 
@@ -83,9 +84,10 @@ public class OI {
             double articulateUpMaxSpeed = 0.35;
             double articulateDownMaxSpeed = -0.35;
 
-            runWhile(() -> joystick.getY() > joystickDeadband || joystick.getY() < -joystickDeadband,
-                    new RotateArticulator(
-                            new RangeFilter(joystick::getY, articulateDownMaxSpeed, articulateUpMaxSpeed)));
+            runWhile(
+                    () -> joystick.getY() > joystickDeadband || joystick.getY() < -joystickDeadband,
+                    new RotateArticulator(new RangeFilter(joystick::getY, articulateDownMaxSpeed,
+                            articulateUpMaxSpeed)));
         }
 
         if (Grabber.isEnabled()) {
@@ -98,8 +100,8 @@ public class OI {
     }
 
     /**
-     * Convience method for a bind that should execute the command once directly
-     * after the condition switches to true
+     * Convience method for a bind that should execute the command once directly after the condition
+     * switches to true
      * 
      * @param condition the condition to be checked
      * @param command   the command to be run
@@ -109,8 +111,8 @@ public class OI {
     }
 
     /**
-     * Convience method for a bind that should execute the command continuously
-     * while the condition is true
+     * Convience method for a bind that should execute the command continuously while the condition
+     * is true
      * 
      * @param condition the condition to be checked
      * @param command   the command to be run
@@ -120,15 +122,12 @@ public class OI {
     }
 
     /**
-     * Binds a command to a condition such that whenever the condition is true, the
-     * command is run
+     * Binds a command to a condition such that whenever the condition is true, the command is run
      * 
-     * @param condition  the boolean expression that must be true in order for the
-     *                   command to run
+     * @param condition  the boolean expression that must be true in order for the command to run
      * @param command    the command to be run when the condition is true
-     * @param continuous whether the command should be run continuously while the
-     *                   condition is true or just once when the condition switches
-     *                   to true
+     * @param continuous whether the command should be run continuously while the condition is true
+     *                   or just once when the condition switches to true
      */
     private void bind(Supplier<Boolean> condition, Command command, boolean continuous) {
         Trigger trigger = new Trigger() {

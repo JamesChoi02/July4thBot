@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
 import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
@@ -40,7 +39,8 @@ public class Logger {
         List<String> prefixes = new LinkedList<>();
 
         if (PRINT_TIMESTAMP) {
-            String timestamp = new SimpleDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss").format(new Date());
+            String timestamp =
+                    new SimpleDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss").format(new Date());
             prefixes.add(timestamp);
         }
 

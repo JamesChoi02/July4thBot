@@ -2,7 +2,6 @@ package frc.robot.driver;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-
 import edu.wpi.first.wpilibj.I2C;
 
 /**
@@ -113,7 +112,7 @@ public class RevColorSensorV2 extends I2C implements AutoCloseable {
         short green = (short) (asUnsignedShort(byteBuffer.getShort(4)) / 20);
         short blue = (short) (asUnsignedShort(byteBuffer.getShort(6)) / 20);
 
-        return new short[] { red, green, blue, alpha };
+        return new short[] {red, green, blue, alpha};
     }
 
     /**
@@ -156,8 +155,8 @@ public class RevColorSensorV2 extends I2C implements AutoCloseable {
     }
 
     /**
-     * Convience method that reads 2 bytes starting at the given register address
-     * and converts them to a short
+     * Convience method that reads 2 bytes starting at the given register address and converts them
+     * to a short
      * 
      * @param register the register address of the first byte that is to be read
      * @return the short equivalent of the 2 bytes that were read

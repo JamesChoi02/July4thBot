@@ -1,7 +1,6 @@
 package frc.robot.command;
 
 import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import frc.robot.Robot;
 import frc.robot.log.Logger;
@@ -14,7 +13,7 @@ public class DriveStraight extends PIDCommand {
         this.speedInput = speedInput;
         setInputRange(0, 360);
     }
-    
+
     @Override
     protected void initialize() {
         setSetpoint(Robot.driveTrain.getAngle());

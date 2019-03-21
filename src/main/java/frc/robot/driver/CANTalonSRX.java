@@ -2,7 +2,6 @@ package frc.robot.driver;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class CANTalonSRX extends TalonSRX implements SpeedController {

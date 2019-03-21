@@ -1,7 +1,6 @@
 package frc.robot.log;
 
 import com.kauailabs.navx.frc.AHRS;
-
 import badlog.lib.BadLog;
 
 public class AHRSAutoLogger implements AutoLogger<AHRS> {

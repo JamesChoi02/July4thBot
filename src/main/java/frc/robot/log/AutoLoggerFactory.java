@@ -2,10 +2,8 @@ package frc.robot.log;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
-
 import frc.robot.driver.CANTalonSRX;
 
 public class AutoLoggerFactory {
@@ -21,7 +19,8 @@ public class AutoLoggerFactory {
         AutoLogger<T> logger = (AutoLogger<T>) loggers.get(device.getClass());
 
         if (logger == null)
-            throw new NoClassDefFoundError("No AutoLogger<" + device.getClass().getSimpleName() + "> was registered");
+            throw new NoClassDefFoundError(
+                    "No AutoLogger<" + device.getClass().getSimpleName() + "> was registered");
         else
             logger.log(subsystemName, subsystemName + "/" + deviceName + " ", device);
     }

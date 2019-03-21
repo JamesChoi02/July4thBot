@@ -1,7 +1,6 @@
 package frc.robot.command;
 
 import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 

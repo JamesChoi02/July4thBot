@@ -1,11 +1,9 @@
 package frc.robot.subsystem;
 
 import static org.junit.Assert.assertTrue;
-
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -65,8 +63,8 @@ public class DriveTrain extends BadSubsystem {
     }
 
     /**
-     * Flip which direction is the front of the robot, such that the robot acts as
-     * if it were rotated 180 degrees
+     * Flip which direction is the front of the robot, such that the robot acts as if it were
+     * rotated 180 degrees
      */
     public void invert() {
         inverted = !inverted;

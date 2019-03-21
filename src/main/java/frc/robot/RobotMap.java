@@ -1,8 +1,8 @@
 package frc.robot;
 
 /**
- * Represents all of the physical address of the robot's hardware such as motor
- * CAN ids or sensor DIO positions
+ * Represents all of the physical address of the robot's hardware such as motor CAN ids or sensor
+ * DIO positions
  */
 public class RobotMap {
     /**

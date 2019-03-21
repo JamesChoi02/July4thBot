@@ -1,7 +1,6 @@
 package frc.robot.log;
 
 import com.revrobotics.CANSparkMax;
-
 import badlog.lib.BadLog;
 
 public class CANSparkMaxAutoLogger implements AutoLogger<CANSparkMax> {
