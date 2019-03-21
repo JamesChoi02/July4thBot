@@ -1,4 +1,4 @@
-package frc.robot.util;
+package frc.robot.log;
 
 import badlog.lib.BadLog;
 import frc.robot.driver.CANTalonSRX;

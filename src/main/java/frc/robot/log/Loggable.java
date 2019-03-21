@@ -1,4 +1,4 @@
-package frc.robot.util;
+package frc.robot.log;
 
 /**
  * Represents a device that can be logged using {@link badlog.lib.BadLog}

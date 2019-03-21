@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import frc.robot.Robot;
-import frc.robot.util.Logger;
+import frc.robot.log.Logger;
 
 public class DriveStraight extends PIDCommand {
     private Supplier<Double> speedInput;

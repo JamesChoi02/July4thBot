@@ -24,7 +24,7 @@ import frc.robot.subsystem.DriveTrain;
 import frc.robot.subsystem.Grabber;
 import frc.robot.subsystem.Lifter;
 import frc.robot.subsystem.Lifter.Position;
-import frc.robot.util.Logger;
+import frc.robot.log.Logger;
 
 /**
  * Represents all of the driver controls of the robot

@@ -2,7 +2,7 @@ package frc.robot.driver;
 
 import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.util.Loggable;
+import frc.robot.log.Loggable;
 
 public class Extreme3DProJoystick extends Joystick implements Loggable {
     public Extreme3DProJoystick(int port) {

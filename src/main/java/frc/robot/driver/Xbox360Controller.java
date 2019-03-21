@@ -2,7 +2,7 @@ package frc.robot.driver;
 
 import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.util.Loggable;
+import frc.robot.log.Loggable;
 
 public class Xbox360Controller extends XboxController implements Loggable {
     private double joystickDeadband = 0.1;

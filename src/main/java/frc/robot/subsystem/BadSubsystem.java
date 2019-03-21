@@ -7,9 +7,9 @@ import org.junit.Test;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import frc.robot.util.AutoLoggerFactory;
-import frc.robot.util.Loggable;
-import frc.robot.util.Logger;
+import frc.robot.log.AutoLoggerFactory;
+import frc.robot.log.Loggable;
+import frc.robot.log.Logger;
 
 /**
  * This is the class that every subsystem should subclass
