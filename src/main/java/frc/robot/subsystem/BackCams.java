@@ -5,14 +5,14 @@ import frc.robot.RobotMap;
 import frc.robot.driver.CANTalonSRX;
 
 /**
- * Represents the articulation system for the claw that makes it tilt forward and back
+ * Represents the cam and velcro system for low hatches on the back of the robot
  */
-public class Articulator extends BadSubsystem {
+public class BackCams extends BadSubsystem {
     private CANTalonSRX motor;
 
     @Override
     public void initComponents() {
-        motor = new CANTalonSRX(RobotMap.ARTICULATOR_MOTOR);
+        motor = new CANTalonSRX(RobotMap.CAM_MOTOR);
     }
 
     @Override
@@ -23,21 +23,12 @@ public class Articulator extends BadSubsystem {
     }
 
     /**
-     * Rotate the motor at a given speed in order to cause articulation of the claw
+     * Spins the cams at a given speed
      * 
      * @param speed between -1 and 1
      */
-    public void rotate(double speed) {
+    public void spin(double speed) {
         motor.set(speed);
-    }
-
-    /**
-     * Articulate the claw to a target setpoint
-     * 
-     * @param target
-     */
-    public void rotateTo(double target) {
-
     }
 
     @Override
@@ -52,9 +43,9 @@ public class Articulator extends BadSubsystem {
 
     @Override
     public void test() {
-        rotate(0.1);
+        spin(0.1);
         sleep(2);
-        rotate(-0.1);
+        spin(-0.1);
         sleep(2);
         stop();
     }
