@@ -17,8 +17,9 @@ public class BackCams extends BadSubsystem {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.addDoubleProperty("Output", () -> motor.get(), null);
-        builder.addDoubleProperty("Current", () -> motor.getOutputCurrent(), null);
+        builder.addDoubleProperty("Output", motor::get, null);
+        builder.addDoubleProperty("Current", motor::getOutputCurrent, null);
+        addChild(motor);
     }
 
     /**

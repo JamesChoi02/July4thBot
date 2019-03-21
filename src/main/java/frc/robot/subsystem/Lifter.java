@@ -46,16 +46,17 @@ public class Lifter extends BadSubsystem {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.addDoubleProperty("Output", () -> motor.get(), null);
-        builder.addDoubleProperty("Position", () -> motor.getEncoder().getPosition(), null);
-        builder.addDoubleProperty("Velocity", () -> motor.getEncoder().getVelocity(), null);
-        builder.addDoubleProperty("Current", () -> motor.getOutputCurrent(), null);
-        builder.addDoubleProperty("P", () -> motor.getPIDController().getP(),
-                (p) -> motor.getPIDController().setP(p));
-        builder.addDoubleProperty("I", () -> motor.getPIDController().getI(),
-                (i) -> motor.getPIDController().setI(i));
-        builder.addDoubleProperty("D", () -> motor.getPIDController().getD(),
-                (d) -> motor.getPIDController().setD(d));
+        builder.addDoubleProperty("Output", motor::get, null);
+        builder.addDoubleProperty("Position", motor.getEncoder()::getPosition, null);
+        builder.addDoubleProperty("Velocity", motor.getEncoder()::getVelocity, null);
+        builder.addDoubleProperty("Current", motor::getOutputCurrent, null);
+        builder.addDoubleProperty("P", motor.getPIDController()::getP,
+                motor.getPIDController()::setP);
+        builder.addDoubleProperty("I", motor.getPIDController()::getI,
+                motor.getPIDController()::setI);
+        builder.addDoubleProperty("D", motor.getPIDController()::getD,
+                motor.getPIDController()::setD);
+        addChild(motor);
     }
 
     /**

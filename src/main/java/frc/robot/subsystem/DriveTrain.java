@@ -35,10 +35,11 @@ public class DriveTrain extends BadSubsystem {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.addDoubleProperty("Left Output", () -> leftLeaderMotor.get(), null);
-        builder.addDoubleProperty("Right Output", () -> rightLeaderMotor.get(), null);
-        builder.addDoubleProperty("Velocity", () -> navx.getVelocityX(), null);
-        builder.addDoubleProperty("Yaw", () -> navx.getYaw(), null);
+        builder.addDoubleProperty("Left Output", leftLeaderMotor::get, null);
+        builder.addDoubleProperty("Right Output", rightLeaderMotor::get, null);
+        builder.addDoubleProperty("Velocity", navx::getVelocityX, null);
+        builder.addDoubleProperty("Yaw", navx::getYaw, null);
+        builder.addBooleanProperty("Inverted", this::isInverted, null);
         addChild(leftLeaderMotor);
         addChild(leftFollowerMotor);
         addChild(rightLeaderMotor);
@@ -68,6 +69,13 @@ public class DriveTrain extends BadSubsystem {
      */
     public void invert() {
         inverted = !inverted;
+    }
+
+    /**
+     * @return {@link #inverted} the current inversion state of the drivetrain
+     */
+    public boolean isInverted() {
+        return inverted;
     }
 
     @Override
