@@ -17,6 +17,7 @@ import frc.robot.command.SpinGrabber;
 import frc.robot.command.TankDrive;
 import frc.robot.driver.Extreme3DProJoystick;
 import frc.robot.driver.Xbox360Controller;
+import frc.robot.filter.RangeFilter;
 import frc.robot.subsystem.Articulator;
 import frc.robot.subsystem.BackCams;
 import frc.robot.subsystem.Cameras;
@@ -82,10 +83,9 @@ public class OI {
             double articulateUpMaxSpeed = 0.35;
             double articulateDownMaxSpeed = -0.35;
 
-            runWhile(() -> joystick.getY() > joystickDeadband,
-                    new RotateArticulator(() -> Math.min(joystick.getY(), articulateUpMaxSpeed)));
-            runWhile(() -> joystick.getY() < -joystickDeadband,
-                    new RotateArticulator(() -> Math.max(joystick.getY(), articulateDownMaxSpeed)));
+            runWhile(() -> joystick.getY() > joystickDeadband || joystick.getY() < -joystickDeadband,
+                    new RotateArticulator(
+                            new RangeFilter(joystick::getY, articulateDownMaxSpeed, articulateUpMaxSpeed)));
         }
 
         if (Grabber.isEnabled()) {
