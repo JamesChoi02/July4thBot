@@ -57,7 +57,7 @@ public class DriveTrain extends BadSubsystem {
     /**
      * Get the current reading from the NavX
      * 
-     * @return current yaw of the robot in degrees
+     * @return yaw of the robot in degrees
      */
     public double getAngle() {
         return navx.getAngle();

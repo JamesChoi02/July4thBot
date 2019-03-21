@@ -19,13 +19,30 @@ public abstract class BadSubsystem extends Subsystem implements Loggable {
     public BadSubsystem() {
         super();
         initComponents();
+        verifyFieldInitialization();
         initLogging();
     }
 
     /**
-     * This is where all of the motors, sensors, etc for a subsystem should be initialized.
+     * Initialize the motors, sensors, etc for a subsystem
      */
     public abstract void initComponents();
+
+    /**
+     * Verify that all of the subsystem's fields are initialized. This should be called after
+     * {@link #initComponents()}.
+     */
+    private void verifyFieldInitialization() {
+        for (Field field : getClass().getDeclaredFields()) {
+            try {
+                if (field.get(this) == null) {
+                    Logger.log("Field " + field.getName() + " was not initialized");
+                }
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     /**
      * Initialize the fields that are sent to the SmartDashboard/Shuffleboard. This method is
@@ -67,7 +84,7 @@ public abstract class BadSubsystem extends Subsystem implements Loggable {
     }
 
     /**
-     * This should stop all physical movement of the subsystem.
+     * This should stop all physical movement of the subsystem
      */
     public abstract void stop();
 
@@ -95,7 +112,7 @@ public abstract class BadSubsystem extends Subsystem implements Loggable {
     }
 
     /**
-     * This must be overridden in every subclass, as it is disabled by default.
+     * This must be overridden in every subclass, as it is disabled by default
      * 
      * @return whether or not the subsystem should be initialized
      */
