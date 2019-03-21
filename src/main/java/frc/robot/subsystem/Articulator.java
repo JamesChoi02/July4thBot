@@ -4,6 +4,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
 import frc.robot.driver.CANTalonSRX;
 
+/**
+ * Represents the articulation system for the claw that makes it tilt forward
+ * and back
+ */
 public class Articulator extends BadSubsystem {
     private CANTalonSRX motor;
 
@@ -18,10 +22,20 @@ public class Articulator extends BadSubsystem {
         builder.addDoubleProperty("Current", () -> motor.getOutputCurrent(), null);
     }
 
+    /**
+     * Rotate the motor at a given speed in order to cause articulation of the claw
+     * 
+     * @param speed between -1 and 1
+     */
     public void rotate(double speed) {
         motor.set(speed);
     }
 
+    /**
+     * Articulate the claw to a target setpoint
+     * 
+     * @param target
+     */
     public void rotateTo(double target) {
 
     }

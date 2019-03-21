@@ -11,18 +11,41 @@ import frc.robot.util.AutoLoggerFactory;
 import frc.robot.util.Loggable;
 import frc.robot.util.Logger;
 
+/**
+ * This is the class that every subsystem should subclass
+ */
 public abstract class BadSubsystem extends Subsystem implements Loggable {
+    /**
+     * Make sure this is called in subclass constructors.
+     */
     public BadSubsystem() {
         super();
         initComponents();
         initLogging();
     }
 
+    /**
+     * This is where all of the motors, sensors, etc for a subsystem should be
+     * initialized.
+     */
     public abstract void initComponents();
 
+    /**
+     * Initialize the fields that are sent to the SmartDashboard/Shuffleboard. This
+     * method is automatically called by WPILIB.
+     */
     @Override
     public abstract void initSendable(SendableBuilder builder);
 
+    /**
+     * Initialize logging for all of the subsystem's components. All components
+     * should be initialized before this is called. By default this method will try
+     * to log a component using
+     * {@link AutoLoggerFactory#log(String, String, Object)}.
+     * 
+     * @see badlog.lib.BadLog
+     * @see AutoLoggerFactory
+     */
     @Override
     public void initLogging() {
         String subsystemName = getName();
@@ -47,18 +70,40 @@ public abstract class BadSubsystem extends Subsystem implements Loggable {
         System.out.println("No Default Command Set For " + getName());
     }
 
+    /**
+     * This should stop all physical movement of the subsystem.
+     */
     public abstract void stop();
 
+    /**
+     * Release all of the resources that are used by this subsystem. This should
+     * only be called by WPILIB.
+     */
     @Override
     public abstract void close();
 
+    /**
+     * This should test all of the methods in this subsystem and attept to validate
+     * the effects using JUnit assertions. {@link #stop()} should be called at the
+     * end of the test.
+     */
     @Test
     public abstract void test();
 
+    /**
+     * Convience method for {@link Timer#delay(double)}.
+     * 
+     * @param seconds duration of sleep
+     */
     protected void sleep(double seconds) {
         Timer.delay(seconds);
     }
 
+    /**
+     * This must be overridden in every subclass, as it is disabled by default.
+     * 
+     * @return whether or not the subsystem should be initialized
+     */
     public static boolean isEnabled() {
         return false;
     }

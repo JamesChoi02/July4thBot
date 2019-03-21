@@ -4,6 +4,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
 import frc.robot.driver.CANTalonSRX;
 
+/**
+ * Represents the wheels at the front of the claw that pull in and shoot out the
+ * balls
+ */
 public class Grabber extends BadSubsystem {
     private CANTalonSRX motor;
 
@@ -18,6 +22,11 @@ public class Grabber extends BadSubsystem {
         builder.addDoubleProperty("Current", () -> motor.getOutputCurrent(), null);
     }
 
+    /**
+     * Spin the grabber wheels at a given speed
+     * 
+     * @param speed between -1 and 1
+     */
     public void spin(double speed) {
         motor.set(speed);
     }

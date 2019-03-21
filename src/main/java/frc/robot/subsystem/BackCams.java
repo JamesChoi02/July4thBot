@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
 import frc.robot.driver.CANTalonSRX;
 
+/**
+ * Represents the cam and velcro system for low hatches on the back of the robot
+ */
 public class BackCams extends BadSubsystem {
     private CANTalonSRX motor;
 
@@ -18,6 +21,11 @@ public class BackCams extends BadSubsystem {
         builder.addDoubleProperty("Current", () -> motor.getOutputCurrent(), null);
     }
 
+    /**
+     * Spins the cams at a given speed
+     * 
+     * @param speed between -1 and 1
+     */
     public void spin(double speed) {
         motor.set(speed);
     }

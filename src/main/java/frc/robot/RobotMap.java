@@ -1,8 +1,12 @@
 package frc.robot;
 
+/**
+ * Represents all of the physical address of the robot's hardware such as motor
+ * CAN ids or sensor DIO positions
+ */
 public class RobotMap {
     /**
-     * Drivetrain Motors
+     * Drivetrain Motor CAN Ids
      */
     public static final int FRONT_LEFT_MOTOR = 2;
     public static final int FRONT_RIGHT_MOTOR = 3;
@@ -10,7 +14,7 @@ public class RobotMap {
     public static final int BACK_RIGHT_MOTOR = 1;
 
     /**
-     * Aux Motors
+     * Aux Motor CAN Ids
      */
     public static final int LIFTER_MOTOR = 12;
     public static final int CAM_MOTOR = 23;

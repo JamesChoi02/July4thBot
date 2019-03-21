@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
 
+/**
+ * Represents the chasis of the robot including its drive wheels and sensors
+ */
 public class DriveTrain extends BadSubsystem {
     private CANSparkMax leftLeaderMotor, leftFollowerMotor, rightLeaderMotor, rightFollowerMotor;
     private DifferentialDrive differentialDrive;
@@ -52,10 +55,19 @@ public class DriveTrain extends BadSubsystem {
             differentialDrive.tankDrive(left, right);
     }
 
+    /**
+     * Get the current reading from the NavX
+     * 
+     * @return current yaw of the robot in degrees
+     */
     public double getAngle() {
         return navx.getAngle();
     }
 
+    /**
+     * Flip which direction is the front of the robot, such that the robot acts as
+     * if it were rotated 180 degrees
+     */
     public void invert() {
         inverted = !inverted;
     }

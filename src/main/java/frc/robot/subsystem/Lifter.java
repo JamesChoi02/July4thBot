@@ -7,13 +7,26 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
 
+/**
+ * Represents the lifter that elevates the claw to various heights
+ */
 public class Lifter extends BadSubsystem {
+    /**
+     * Defines setpoints that the user may wish to elevate the claw to
+     */
     public enum Position {
         HATCH_HIGH(38.25), HATCH_MIDDLE(22.1), HATCH_LOW(2.6), BALL_HIGH(45.4), BALL_MIDDLE(28), BALL_LOW(10.4),
         GROUND(0);
 
         private final double revolutions;
 
+        /**
+         * Creates a setpoint for the lifter
+         * 
+         * @param revolutions the number of revolutions of the {@link #motor} that are
+         *                    required to get to the desired height as measured by the
+         *                    Neo's encoder
+         */
         private Position(double revolutions) {
             this.revolutions = revolutions;
         }
@@ -44,10 +57,23 @@ public class Lifter extends BadSubsystem {
         builder.addDoubleProperty("D", () -> motor.getPIDController().getD(), (d) -> motor.getPIDController().setD(d));
     }
 
+    /**
+     * Move the lifter up or down at a given speed where +1 speed is full speed
+     * upwards and -1 is full speed downwards
+     * 
+     * @param speed between -1 and 1
+     */
     public void move(double speed) {
         motor.set(speed);
     }
 
+    /**
+     * Move to an arbitrary height as measured in revolutions of the {@link #motor}.
+     * This method uses the SparkMax's integrated PID controller.
+     * 
+     * @param target the Neo encoder value that should be reached to attain the
+     *               desired height
+     */
     public void moveTo(double target) {
         motor.getPIDController().setReference(target, ControlType.kPosition);
     }

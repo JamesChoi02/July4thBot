@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.I2C;
 /**
  * Implementation of the RevRobotics Color Sensor V2
  *
- * See http://www.revrobotics.com/content/docs/TMD3782_v2.pdf
+ * @see http://www.revrobotics.com/content/docs/TMD3782_v2.pdf
  */
 public class RevColorSensorV2 extends I2C implements AutoCloseable {
     /* ---------------------------- READ/WRITE ---------------------------- */
@@ -102,7 +102,7 @@ public class RevColorSensorV2 extends I2C implements AutoCloseable {
     }
 
     /**
-     * Read the red, green, blue, and proximity values from the sensor
+     * Read the red, green, blue, and alpha values from the sensor
      */
     public short[] getRGBA() {
         byteBuffer.clear();
@@ -116,24 +116,52 @@ public class RevColorSensorV2 extends I2C implements AutoCloseable {
         return new short[] { red, green, blue, alpha };
     }
 
+    /**
+     * Read the current proximity value from the sensor
+     * 
+     * @return the proximity to the closest opaque object
+     */
     public short getProximity() {
         return readShort(PDATAL);
     }
 
+    /**
+     * Read the current gain control value of the sensor
+     * 
+     * @return the current gain control of the sensor
+     */
     public byte getControl() {
         return readByte(CONTROL);
     }
 
+    /**
+     * Read the value of the {@link #STATUS} register of the sensor
+     * 
+     * @return the current status of the sensor
+     */
     public int getStatus() {
         return readByte(STATUS);
     }
 
+    /**
+     * Convience method that reads 1 byte from the given register address
+     * 
+     * @param register the register address of the byte that is to be read
+     * @return the byte that was read
+     */
     private byte readByte(int register) {
         byteBuffer.clear();
         read(COMMAND | register, 1, byteBuffer);
         return byteBuffer.get(0);
     }
 
+    /**
+     * Convience method that reads 2 bytes starting at the given register address
+     * and converts them to a short
+     * 
+     * @param register the register address of the first byte that is to be read
+     * @return the short equivalent of the 2 bytes that were read
+     */
     public short readShort(int register) {
         byteBuffer.clear();
         read(COMMAND | MULTI_BYTE_BIT | register, 2, byteBuffer);

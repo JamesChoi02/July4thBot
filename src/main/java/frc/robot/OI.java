@@ -26,6 +26,9 @@ import frc.robot.subsystem.Lifter;
 import frc.robot.subsystem.Lifter.Position;
 import frc.robot.util.Logger;
 
+/**
+ * Represents all of the driver controls of the robot
+ */
 public class OI {
     public Xbox360Controller xboxController;
     public Extreme3DProJoystick joystick;
@@ -34,7 +37,7 @@ public class OI {
     public OI() {
         Logger.log("Initializing Bindings");
         xboxController = new Xbox360Controller(0, 0.1, 0.1);
-        // joystick = new Extreme3DProJoystick(1);
+        joystick = new Extreme3DProJoystick(1);
         binds = new LinkedList<>();
 
         if (DriveTrain.isEnabled()) {
@@ -92,19 +95,43 @@ public class OI {
         }
     }
 
+    /**
+     * Convience method for a bind that should execute the command once directly
+     * after the condition switches to true
+     * 
+     * @param condition the condition to be checked
+     * @param command   the command to be run
+     */
     private void runWhen(Supplier<Boolean> condition, Command command) {
         bind(condition, command, false);
     }
 
+    /**
+     * Convience method for a bind that should execute the command continuously
+     * while the condition is true
+     * 
+     * @param condition the condition to be checked
+     * @param command   the command to be run
+     */
     private void runWhile(Supplier<Boolean> condition, Command command) {
         bind(condition, command, true);
     }
 
+    /**
+     * Binds a command to a condition such that whenever the condition is true, the
+     * command is run
+     * 
+     * @param condition  the boolean expression that must be true in order for the
+     *                   command to run
+     * @param command    the command to be run when the condition is true
+     * @param continuous whether the command should be run continuously while the
+     *                   condition is true or just once when the condition switches
+     *                   to true
+     */
     private void bind(Supplier<Boolean> condition, Command command, boolean continuous) {
         Trigger trigger = new Trigger() {
             @Override
             public boolean get() {
-                // Logger.log("Trigger polled " + command.getClass().getSimpleName() + "\t\t\tValue: " + condition.get());
                 return condition.get();
             }
         };
@@ -115,6 +142,5 @@ public class OI {
             trigger.whenActive(command);
 
         binds.add(trigger);
-        Logger.log("Bound condition to " + command.getClass().getSimpleName());
     }
 }
