@@ -11,13 +11,12 @@ public class DriveStraight extends PIDCommand {
     public DriveStraight(Supplier<Double> speedInput) {
         super(0.05, 0.001, 0.025, Robot.driveTrain);
         this.speedInput = speedInput;
-        setInputRange(0, 360);
+        setInputRange(-180, 180);
     }
 
     @Override
     protected void initialize() {
-        setSetpoint(Robot.driveTrain.getAngle());
-        Logger.log("Starting Angle " + getSetpoint());
+        resetAngle();
     }
 
     @Override
@@ -25,10 +24,18 @@ public class DriveStraight extends PIDCommand {
         return Robot.driveTrain.getAngle();
     }
 
+    protected void resetAngle() {
+        getPIDController().reset();
+        getPIDController().enable();
+        setSetpoint(Robot.driveTrain.getAngle());
+        Logger.log("Starting Angle " + getSetpoint());
+    }
+
     @Override
     protected void usePIDOutput(double pidOutput) {
-        double speed = speedInput.get();
+        double speed = -speedInput.get();
         Robot.driveTrain.tankDrive(speed - pidOutput, speed + pidOutput);
+        Logger.log(pidOutput + "");
     }
 
     @Override
@@ -39,6 +46,5 @@ public class DriveStraight extends PIDCommand {
     @Override
     protected void end() {
         Robot.driveTrain.stop();
-        getPIDController().reset();
     }
 }

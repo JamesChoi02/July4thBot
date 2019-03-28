@@ -13,10 +13,10 @@ import frc.robot.RobotMap;
  * Represents the chasis of the robot including its drive wheels and sensors
  */
 public class DriveTrain extends BadSubsystem {
-    private CANSparkMax leftLeaderMotor, leftFollowerMotor, rightLeaderMotor, rightFollowerMotor;
-    private DifferentialDrive differentialDrive;
-    private AHRS navx;
-    private boolean inverted;
+    protected CANSparkMax leftLeaderMotor, leftFollowerMotor, rightLeaderMotor, rightFollowerMotor;
+    protected DifferentialDrive differentialDrive;
+    protected AHRS navx;
+    protected boolean inverted;
 
     @Override
     public void initComponents() {
@@ -40,14 +40,17 @@ public class DriveTrain extends BadSubsystem {
         builder.addDoubleProperty("Velocity", navx::getVelocityX, null);
         builder.addDoubleProperty("Yaw", navx::getYaw, null);
         builder.addBooleanProperty("Inverted", this::isInverted, null);
-        addChild(leftLeaderMotor);
-        addChild(leftFollowerMotor);
-        addChild(rightLeaderMotor);
-        addChild(rightFollowerMotor);
-        addChild(navx);
+        // addChild(leftLeaderMotor);
+        // addChild(leftFollowerMotor);
+        // addChild(rightLeaderMotor);
+        // addChild(rightFollowerMotor);
+        // addChild(navx);
     }
 
     public void tankDrive(double left, double right) {
+        left *= -1;
+        right *= -1;
+
         if (inverted)
             differentialDrive.tankDrive(-right, -left);
         else
@@ -56,7 +59,7 @@ public class DriveTrain extends BadSubsystem {
 
     /**
      * Get the current reading from the NavX
-     * 
+     *
      * @return yaw of the robot in degrees
      */
     public double getAngle() {
@@ -107,6 +110,6 @@ public class DriveTrain extends BadSubsystem {
     }
 
     public static boolean isEnabled() {
-        return false;
+        return true;
     }
 }

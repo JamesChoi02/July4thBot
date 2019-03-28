@@ -1,5 +1,6 @@
 package frc.robot.subsystem;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
 import frc.robot.driver.CANTalonSRX;
@@ -8,23 +9,25 @@ import frc.robot.driver.CANTalonSRX;
  * Represents the articulation system for the claw that makes it tilt forward and back
  */
 public class Articulator extends BadSubsystem {
-    private CANTalonSRX motor;
+    protected CANTalonSRX motor;
 
     @Override
     public void initComponents() {
         motor = new CANTalonSRX(RobotMap.ARTICULATOR_MOTOR);
+        motor.overrideLimitSwitchesEnable(false);
+        motor.setNeutralMode(NeutralMode.Brake);
     }
 
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.addDoubleProperty("Output", motor::get, null);
         builder.addDoubleProperty("Current", motor::getOutputCurrent, null);
-        addChild(motor);
+        // addChild(motor);
     }
 
     /**
      * Rotate the motor at a given speed in order to cause articulation of the claw
-     * 
+     *
      * @param speed between -1 and 1
      */
     public void rotate(double speed) {
@@ -33,7 +36,7 @@ public class Articulator extends BadSubsystem {
 
     /**
      * Articulate the claw to a target setpoint
-     * 
+     *
      * @param target
      */
     public void rotateTo(double target) {
@@ -57,5 +60,9 @@ public class Articulator extends BadSubsystem {
         rotate(-0.1);
         sleep(2);
         stop();
+    }
+
+    public static boolean isEnabled() {
+        return true;
     }
 }
