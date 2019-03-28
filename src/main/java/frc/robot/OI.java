@@ -61,7 +61,7 @@ public class OI {
         }
 
         if (Lifter.isEnabled()) {
-            Supplier<Double> raiseLifterSpeed = () -> 0.4;
+            Supplier<Double> raiseLifterSpeed = () -> 0.5;
             Supplier<Double> lowerLifterSpeed = () -> -0.2;
 
             runWhile(joystick::getPovUp, new MoveLifter(raiseLifterSpeed));

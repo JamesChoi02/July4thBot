@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         Scheduler.getInstance().run();
-        Logger.update();
+        // Logger.update();
         // LiveWindow.updateValues();
     }
 }

@@ -17,8 +17,8 @@ public class Cameras extends BadSubsystem {
      * Represents a single physical camera on the robot
      */
     public enum Camera {
-        FRONT(0, new VideoMode(PixelFormat.kYUYV, 320, 180, 30));
-        // BACK(1, new VideoMode(PixelFormat.kYUYV, 320, 180, 30));
+        FRONT(0, new VideoMode(PixelFormat.kYUYV, 320, 180, 30)),
+        BACK(1, new VideoMode(PixelFormat.kYUYV, 320, 180, 30));
 
         private final UsbCamera device;
 
