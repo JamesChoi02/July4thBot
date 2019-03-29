@@ -3,9 +3,11 @@ package frc.robot.subsystem;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
+import frc.robot.command.SpinBackCams;
 import frc.robot.driver.CANTalonSRX;
 
 /**
@@ -17,6 +19,7 @@ public class BackCams extends BadSubsystem {
     @Override
     public void initComponents() {
         motor = new CANTalonSRX(RobotMap.CAM_MOTOR);
+        motor.overrideSoftLimitsEnable(true);
         motor.setNeutralMode(NeutralMode.Brake);
     }
 

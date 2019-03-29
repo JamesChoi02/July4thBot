@@ -1,6 +1,7 @@
 package frc.robot.subsystem;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
 import frc.robot.driver.CANTalonSRX;
@@ -14,7 +15,7 @@ public class Articulator extends BadSubsystem {
     @Override
     public void initComponents() {
         motor = new CANTalonSRX(RobotMap.ARTICULATOR_MOTOR);
-        motor.overrideLimitSwitchesEnable(false);
+        motor.overrideSoftLimitsEnable(false);
         motor.setNeutralMode(NeutralMode.Brake);
     }
 

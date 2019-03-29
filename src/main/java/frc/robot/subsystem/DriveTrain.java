@@ -29,6 +29,7 @@ public class DriveTrain extends BadSubsystem {
         rightFollowerMotor.follow(rightLeaderMotor);
 
         differentialDrive = new DifferentialDrive(leftLeaderMotor, rightLeaderMotor);
+        differentialDrive.setSafetyEnabled(true);
 
         navx = new AHRS(Port.kMXP);
     }
@@ -47,14 +48,21 @@ public class DriveTrain extends BadSubsystem {
         // addChild(navx);
     }
 
-    public void tankDrive(double left, double right) {
+    /**
+     * Makes the wheels spin
+     *
+     * @param left    left speed
+     * @param right   right speed
+     * @param squared whether the inputs should be squared
+     */
+    public void tankDrive(double left, double right, boolean squared) {
         left *= -1;
         right *= -1;
 
         if (inverted)
-            differentialDrive.tankDrive(-right, -left);
+            differentialDrive.tankDrive(-right, -left, squared);
         else
-            differentialDrive.tankDrive(left, right);
+            differentialDrive.tankDrive(left, right, squared);
     }
 
     /**
@@ -96,12 +104,12 @@ public class DriveTrain extends BadSubsystem {
 
     @Override
     public void test() {
-        tankDrive(0.1, 0);
+        tankDrive(0.1, 0, false);
         sleep(1);
         assertTrue("Left DriveTrain Motors Move", leftLeaderMotor.getEncoder().getVelocity() > 0);
         sleep(1);
 
-        tankDrive(0, 0.1);
+        tankDrive(0, 0.1, false);
         sleep(1);
         assertTrue("Right DriveTrain Motors Move", rightLeaderMotor.getEncoder().getVelocity() > 0);
         sleep(1);

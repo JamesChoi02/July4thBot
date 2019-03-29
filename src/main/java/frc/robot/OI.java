@@ -36,17 +36,17 @@ public class OI {
 
     public OI() {
         Logger.log("Initializing Bindings");
-        xboxController = new Xbox360Controller(0, 0.05, 0.05);
+        xboxController = new Xbox360Controller(0, 0.1, 0.1);
         joystick = new Extreme3DProJoystick(1);
         binds = new LinkedList<>();
 
         if (DriveTrain.isEnabled()) {
-            runWhile(() -> xboxController.getLeftYActive() || xboxController.getRightYActive(),
-                    new TankDrive(xboxController::getLeftY, xboxController::getRightY));
             runWhile(xboxController::getRightTriggerPulled, new DriveStraight(
                     new RangeFilter(() -> xboxController.getRightTrigger(), 0, 0.85)));
             runWhile(xboxController::getLeftTriggerPulled, new DriveStraight(
                     new RangeFilter(() -> -xboxController.getLeftTrigger(), -0.85, 0)));
+            runWhile(() -> xboxController.getLeftYActive() || xboxController.getRightYActive(),
+                    new TankDrive(xboxController::getLeftY, xboxController::getRightY));
             runWhile(xboxController::getAButton, new InvertDriveTrain());
         }
 

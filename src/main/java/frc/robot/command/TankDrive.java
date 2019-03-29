@@ -15,7 +15,7 @@ public class TankDrive extends Command {
 
     @Override
     protected void execute() {
-        Robot.driveTrain.tankDrive(leftInput.get(), rightInput.get());
+        Robot.driveTrain.tankDrive(leftInput.get(), rightInput.get(), true);
     }
 
     @Override

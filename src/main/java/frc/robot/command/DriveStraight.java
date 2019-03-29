@@ -34,8 +34,7 @@ public class DriveStraight extends PIDCommand {
     @Override
     protected void usePIDOutput(double pidOutput) {
         double speed = -speedInput.get();
-        Robot.driveTrain.tankDrive(speed - pidOutput, speed + pidOutput);
-        Logger.log(pidOutput + "");
+        Robot.driveTrain.tankDrive(speed - pidOutput, speed + pidOutput, false);
     }
 
     @Override
