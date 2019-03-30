@@ -1,5 +1,6 @@
 package frc.robot;
 
+import java.util.ConcurrentModificationException;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -36,27 +37,32 @@ public class Robot extends TimedRobot {
 
         if (DriveTrain.isEnabled()) {
             driveTrain = new DriveTrain();
+            LiveWindow.add(driveTrain);
         }
 
         if (BackCams.isEnabled()) {
             backCams = new BackCams();
+            // LiveWindow.add(backCams);
         }
 
         if (Lifter.isEnabled()) {
             lifter = new Lifter();
+            // LiveWindow.add(lifter);
         }
 
         if (Articulator.isEnabled()) {
             articulator = new Articulator();
+            // LiveWindow.add(articulator);
         }
 
         if (Grabber.isEnabled()) {
             grabber = new Grabber();
+            // LiveWindow.add(grabber);
         }
 
         if (Cameras.isEnabled()) {
             cameras = new Cameras();
-            LiveWindow.add(cameras);
+            // LiveWindow.add(cameras);
         }
 
         oi = new OI();
@@ -71,7 +77,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         Scheduler.getInstance().run();
-        Logger.update();
-        LiveWindow.updateValues();
+        // Logger.update();
+        // LiveWindow.updateValues();
     }
 }

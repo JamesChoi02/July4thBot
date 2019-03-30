@@ -17,14 +17,14 @@ public class Cameras extends BadSubsystem {
      * Represents a single physical camera on the robot
      */
     public enum Camera {
-        FRONT(0, new VideoMode(PixelFormat.kYUYV, 320, 180, 30)), BACK(1,
-                new VideoMode(PixelFormat.kYUYV, 320, 180, 30));
+        FRONT(0, new VideoMode(PixelFormat.kYUYV, 320, 180, 30)),
+        BACK(1, new VideoMode(PixelFormat.kYUYV, 320, 180, 30));
 
         private final UsbCamera device;
 
         /**
          * Creates a Camera instance at a certain port, using a specific VideoMode
-         * 
+         *
          * @param port      the usb port in which the camera is plugged in
          * @param videoMode the display resolution and fps to use with this camera
          */
@@ -36,7 +36,7 @@ public class Cameras extends BadSubsystem {
 
         /**
          * Get the WPILIB UsbCamera instance that this Camera represents
-         * 
+         *
          * @return {@link #device}
          */
         private UsbCamera getDevice() {
@@ -44,8 +44,8 @@ public class Cameras extends BadSubsystem {
         }
     }
 
-    private VideoSink server;
-    private Camera activeCamera;
+    protected VideoSink server;
+    protected Camera activeCamera;
 
     @Override
     public void initComponents() {
@@ -72,7 +72,7 @@ public class Cameras extends BadSubsystem {
     /**
      * Set the current viewable camera to a given Camera instance. This changes the source of the
      * camera feed that is sent to SmartDashboard/Shuffleboard.
-     * 
+     *
      * @param camera
      */
     public void setCamera(Camera camera) {
@@ -90,7 +90,7 @@ public class Cameras extends BadSubsystem {
 
     /**
      * Get the camera that is currently being displayed
-     * 
+     *
      * @return {@link #activeCamera}
      */
     private Camera getActiveCamera() {

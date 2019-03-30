@@ -19,7 +19,7 @@ public class MoveLifterTo extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return Math.abs(Robot.lifter.getEncoderValue() - position.getRevolutions()) < 3;
     }
 
     @Override

@@ -3,8 +3,10 @@ package frc.robot.subsystem;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
+import frc.robot.Trigger;
 
 /**
  * Represents the lifter that elevates the claw to various heights
@@ -21,7 +23,7 @@ public class Lifter extends BadSubsystem {
 
         /**
          * Creates a setpoint for the lifter
-         * 
+         *
          * @param revolutions the number of revolutions of the {@link #motor} that are required to
          *                    get to the desired height as measured by the Neo's encoder
          */
@@ -34,14 +36,28 @@ public class Lifter extends BadSubsystem {
         }
     }
 
-    private CANSparkMax motor;
+    protected CANSparkMax motor;
+    protected Trigger bottomLimitSwitch;
 
     @Override
     public void initComponents() {
         motor = new CANSparkMax(RobotMap.LIFTER_MOTOR, MotorType.kBrushless);
+        motor.setInverted(true);
+        motor.getPIDController().setOutputRange(-0.35, 0.85);
         motor.getPIDController().setP(0.1);
-        motor.getPIDController().setI(0.15);
-        motor.getPIDController().setD(0.15);
+        motor.getPIDController().setI(0);
+        motor.getPIDController().setD(0);
+
+        DigitalInput bottomLimitSwitchDI = new DigitalInput(10);
+
+        bottomLimitSwitch = new Trigger(bottomLimitSwitchDI::get) {
+            @Override
+            public void close() {
+                super.close();
+                bottomLimitSwitchDI.close();
+            }
+        };
+        // bottomLimitSwitch.whenActive(new ZeroEncoder());
     }
 
     @Override
@@ -56,13 +72,13 @@ public class Lifter extends BadSubsystem {
                 motor.getPIDController()::setI);
         builder.addDoubleProperty("D", motor.getPIDController()::getD,
                 motor.getPIDController()::setD);
-        addChild(motor);
+        // addChild(motor);
     }
 
     /**
      * Move the lifter up or down at a given speed where +1 speed is full speed upwards and -1 is
      * full speed downwards
-     * 
+     *
      * @param speed between -1 and 1
      */
     public void move(double speed) {
@@ -72,11 +88,23 @@ public class Lifter extends BadSubsystem {
     /**
      * Move to an arbitrary height as measured in revolutions of the {@link #motor}. This method
      * uses the SparkMax's integrated PID controller.
-     * 
+     *
      * @param target the Neo encoder value that should be reached to attain the desired height
      */
     public void moveTo(double target) {
+        System.err.println("Set Point: " + target);
         motor.getPIDController().setReference(target, ControlType.kPosition);
+    }
+
+    /**
+     * Zero the lifter motor's encoder value
+     */
+    public void zeroEncoder() {
+        motor.getEncoder().setPosition(0);
+    }
+
+    public double getEncoderValue() {
+        return motor.getEncoder().getPosition();
     }
 
     @Override
@@ -87,6 +115,7 @@ public class Lifter extends BadSubsystem {
     @Override
     public void close() {
         motor.close();
+        bottomLimitSwitch.close();
     }
 
     @Override
@@ -94,5 +123,9 @@ public class Lifter extends BadSubsystem {
         move(0.1);
         sleep(2);
         stop();
+    }
+
+    public static boolean isEnabled() {
+        return true;
     }
 }

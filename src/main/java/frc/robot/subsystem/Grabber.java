@@ -8,7 +8,7 @@ import frc.robot.driver.CANTalonSRX;
  * Represents the wheels at the front of the claw that pull in and shoot out the balls
  */
 public class Grabber extends BadSubsystem {
-    private CANTalonSRX motor;
+    protected CANTalonSRX motor;
 
     @Override
     public void initComponents() {
@@ -19,12 +19,12 @@ public class Grabber extends BadSubsystem {
     public void initSendable(SendableBuilder builder) {
         builder.addDoubleProperty("Output", motor::get, null);
         builder.addDoubleProperty("Current", motor::getOutputCurrent, null);
-        addChild(motor);
+        // addChild(motor);
     }
 
     /**
      * Spin the grabber wheels at a given speed
-     * 
+     *
      * @param speed between -1 and 1
      */
     public void spin(double speed) {
@@ -46,5 +46,9 @@ public class Grabber extends BadSubsystem {
         spin(0.1);
         sleep(2);
         stop();
+    }
+
+    public static boolean isEnabled() {
+        return true;
     }
 }

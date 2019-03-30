@@ -3,7 +3,6 @@ package frc.robot;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
-import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.command.ChangeCameraView;
 import frc.robot.command.DriveStraight;
@@ -14,6 +13,7 @@ import frc.robot.command.RotateArticulator;
 import frc.robot.command.SpinBackCams;
 import frc.robot.command.SpinGrabber;
 import frc.robot.command.TankDrive;
+import frc.robot.command.ZeroEncoder;
 import frc.robot.driver.Extreme3DProJoystick;
 import frc.robot.driver.Xbox360Controller;
 import frc.robot.filter.RangeFilter;
@@ -41,20 +41,19 @@ public class OI {
         binds = new LinkedList<>();
 
         if (DriveTrain.isEnabled()) {
+            runWhile(xboxController::getRightTriggerPulled, new DriveStraight(
+                    new RangeFilter(() -> xboxController.getRightTrigger(), 0, 0.85)));
+            runWhile(xboxController::getLeftTriggerPulled, new DriveStraight(
+                    new RangeFilter(() -> -xboxController.getLeftTrigger(), -0.85, 0)));
             runWhile(() -> xboxController.getLeftYActive() || xboxController.getRightYActive(),
                     new TankDrive(xboxController::getLeftY, xboxController::getRightY));
-            runWhile(xboxController::getRightTriggerPulled,
-                    new DriveStraight(() -> xboxController.getRightTrigger()));
-            runWhile(xboxController::getLeftTriggerPulled,
-                    new DriveStraight(() -> -xboxController.getLeftTrigger()));
             runWhile(xboxController::getAButton, new InvertDriveTrain());
         }
 
         if (BackCams.isEnabled()) {
-            Supplier<Double> backCamSpeed = () -> 1.0;
+            runWhile(xboxController::getRightBumper, new SpinBackCams(() -> 0.8));
 
-            runWhile(() -> xboxController.getLeftBumper() || xboxController.getRightBumper(),
-                    new SpinBackCams(backCamSpeed));
+            runWhile(xboxController::getLeftBumper, new SpinBackCams(() -> -1.0));
         }
 
         if (Cameras.isEnabled()) {
@@ -77,6 +76,8 @@ public class OI {
             runWhen(joystick::getButton12, new MoveLifterTo(Position.BALL_LOW));
 
             runWhen(joystick::getTopBackLeftButton, new MoveLifterTo(Position.GROUND));
+
+            runWhen(joystick::getTopFrontLeftButton, new ZeroEncoder());
         }
 
         if (Articulator.isEnabled()) {
@@ -91,8 +92,8 @@ public class OI {
         }
 
         if (Grabber.isEnabled()) {
-            Supplier<Double> grabInSpeed = () -> 0.35;
-            Supplier<Double> shootOutSpeed = () -> -0.35;
+            Supplier<Double> grabInSpeed = () -> 1.0;
+            Supplier<Double> shootOutSpeed = () -> -1.0;
 
             runWhile(joystick::getTrigger, new SpinGrabber(grabInSpeed));
             runWhile(joystick::getSideThumbButton, new SpinGrabber(shootOutSpeed));
@@ -102,46 +103,26 @@ public class OI {
     /**
      * Convience method for a bind that should execute the command once directly after the condition
      * switches to true
-     * 
+     *
      * @param condition the condition to be checked
      * @param command   the command to be run
      */
     private void runWhen(Supplier<Boolean> condition, Command command) {
-        bind(condition, command, false);
+        Trigger trigger = new Trigger(condition);
+        binds.add(trigger);
+        trigger.whenActive(command);
     }
 
     /**
      * Convience method for a bind that should execute the command continuously while the condition
      * is true
-     * 
+     *
      * @param condition the condition to be checked
      * @param command   the command to be run
      */
     private void runWhile(Supplier<Boolean> condition, Command command) {
-        bind(condition, command, true);
-    }
-
-    /**
-     * Binds a command to a condition such that whenever the condition is true, the command is run
-     * 
-     * @param condition  the boolean expression that must be true in order for the command to run
-     * @param command    the command to be run when the condition is true
-     * @param continuous whether the command should be run continuously while the condition is true
-     *                   or just once when the condition switches to true
-     */
-    private void bind(Supplier<Boolean> condition, Command command, boolean continuous) {
-        Trigger trigger = new Trigger() {
-            @Override
-            public boolean get() {
-                return condition.get();
-            }
-        };
-
-        if (continuous)
-            trigger.whileActive(command);
-        else
-            trigger.whenActive(command);
-
+        Trigger trigger = new Trigger(condition);
         binds.add(trigger);
+        trigger.whileActive(command);
     }
 }
