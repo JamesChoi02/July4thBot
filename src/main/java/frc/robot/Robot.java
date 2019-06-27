@@ -4,12 +4,7 @@ import java.util.ConcurrentModificationException;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import frc.robot.subsystem.Articulator;
-import frc.robot.subsystem.BackCams;
-import frc.robot.subsystem.Cameras;
-import frc.robot.subsystem.DriveTrain;
-import frc.robot.subsystem.Grabber;
-import frc.robot.subsystem.Lifter;
+import frc.robot.subsystem.Wheels;
 import frc.robot.log.Logger;
 
 /**
@@ -19,12 +14,7 @@ import frc.robot.log.Logger;
  * after creating this project, you must also update the manifest file in the resource directory.
  */
 public class Robot extends TimedRobot {
-    public static DriveTrain driveTrain;
-    public static BackCams backCams;
-    public static Lifter lifter;
-    public static Articulator articulator;
-    public static Grabber grabber;
-    public static Cameras cameras;
+    public static Wheels wheels;
     public static OI oi;
 
     /**
@@ -35,34 +25,9 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         Logger.startInitialization();
 
-        if (DriveTrain.isEnabled()) {
-            driveTrain = new DriveTrain();
-            LiveWindow.add(driveTrain);
-        }
-
-        if (BackCams.isEnabled()) {
-            backCams = new BackCams();
-            // LiveWindow.add(backCams);
-        }
-
-        if (Lifter.isEnabled()) {
-            lifter = new Lifter();
-            // LiveWindow.add(lifter);
-        }
-
-        if (Articulator.isEnabled()) {
-            articulator = new Articulator();
-            // LiveWindow.add(articulator);
-        }
-
-        if (Grabber.isEnabled()) {
-            grabber = new Grabber();
+        if (Wheels.isEnabled()) {
+            wheels = new Wheels();
             // LiveWindow.add(grabber);
-        }
-
-        if (Cameras.isEnabled()) {
-            cameras = new Cameras();
-            // LiveWindow.add(cameras);
         }
 
         oi = new OI();

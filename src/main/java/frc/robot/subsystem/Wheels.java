@@ -1,25 +1,24 @@
 package frc.robot.subsystem;
 
+import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.RobotMap;
-import frc.robot.driver.CANTalonSRX;
 
 /**
  * Represents the wheels at the front of the claw that pull in and shoot out the balls
  */
-public class Grabber extends BadSubsystem {
-    protected CANTalonSRX motor;
+public class Wheels extends BadSubsystem {
+    protected PWMTalonSRX wheel1;
+    protected PWMTalonSRX wheel2;
 
     @Override
     public void initComponents() {
-        motor = new CANTalonSRX(RobotMap.GRABBER_MOTOR);
+        wheel1 = new PWMTalonSRX(RobotMap.WHEEL_1);
+        wheel2 = new PWMTalonSRX(RobotMap.WHEEL_2);
     }
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.addDoubleProperty("Output", motor::get, null);
-        builder.addDoubleProperty("Current", motor::getOutputCurrent, null);
-        // addChild(motor);
     }
 
     /**
@@ -28,24 +27,23 @@ public class Grabber extends BadSubsystem {
      * @param speed between -1 and 1
      */
     public void spin(double speed) {
-        motor.set(speed);
+        wheel1.set(speed);
+        wheel2.set(speed);
     }
 
     @Override
     public void stop() {
-        motor.stopMotor();
+        wheel1.stopMotor();
+        wheel2.stopMotor();
     }
 
     @Override
     public void close() {
-        motor.DestroyObject();
+        wheel1.close();
     }
 
     @Override
     public void test() {
-        spin(0.1);
-        sleep(2);
-        stop();
     }
 
     public static boolean isEnabled() {

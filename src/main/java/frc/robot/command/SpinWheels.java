@@ -4,17 +4,17 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class MoveLifter extends Command {
+public class SpinWheels extends Command {
     private Supplier<Double> speedInput;
 
-    public MoveLifter(Supplier<Double> speedInput) {
-        super(Robot.lifter);
+    public SpinWheels(Supplier<Double> speedInput) {
+        super(Robot.wheels);
         this.speedInput = speedInput;
     }
 
     @Override
     protected void execute() {
-        Robot.lifter.move(speedInput.get());
+        Robot.wheels.spin(speedInput.get());
     }
 
     @Override
@@ -24,6 +24,6 @@ public class MoveLifter extends Command {
 
     @Override
     protected void end() {
-        Robot.lifter.stop();
+        Robot.wheels.stop();
     }
 }
